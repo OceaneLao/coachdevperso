@@ -15,35 +15,36 @@
     </head>
     <body>
 
-    <header class="bg-pink text-white">
-        <div class="container mx-auto">
-            <div>
-                <p>Coach Développement Personnel - May-Dia Yang</p>
+    <header class="sticky top-0 bg-pink text-white">
+        <div class="container mx-auto flex flex-row items-center justify-center">
+            <div class="basis-1/2 flex flex-row items-center justify-center p-5">
+                <img class="w-10" src="{{ asset("img/logo.png") }}" alt="Logo lotus">
+                <p class="ps-5 pe-5">Coach Développement Personnel - May-Dia Yang</p>
             </div>
 
-            <div>
-                <ul>
-                    <li>
+            <div class="basis-1/2">
+                <ul class="flex flex-wrap items-center justify-center">
+                    <li class="p-5">
                         <a href="{{ path("home") }}">
                             Homepage
                         </a>
                     </li>
-                    <li>
+                    <li class="p-5">
                         <a href="{{ path("appointment") }}">
                             Appointment
                         </a>
                     </li>
-                    <li>
+                    <li class="p-5">
                         <a href="{{ path("about") }}">
                             About
                         </a>
                     </li>
-                    <li>
+                    <li class="p-5">
                         <a href="{{ path("contact") }}">
                             Contact
                         </a>
                     </li>
-                    <li>
+                    <li class="p-5">
                         <a href="">
                             Login
                         </a>

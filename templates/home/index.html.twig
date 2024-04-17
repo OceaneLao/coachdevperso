@@ -4,55 +4,90 @@
 {% endblock %}
 
 {% block body %}
-	<h1 class="text-3xl text-blue font-bold">
-		Welcome to my website !
-	</h1>
+	<div class="container mx-auto pt-10 pb-10">
+		<div class="flex flex-row justify-center items-center">
+			<div class="basis-1/3 text-center">
+				<h1 class="text-3xl text-blue font-bold pb-5">
+					Welcome to my website !
+				</h1>
+				<p class="text-brown pb-5">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				</p>
 
-	<p>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-	</p>
+				<button class="bg-blue border-blue rounded-full text-white px-20 py-3">
+					Discover
+				</button>
+			</div>
+			<div class="basis-1/1">
+				<img class="w-96 shadow-[20px_20px_0px_0px_#9dc4bc]" src="{{ asset("img/portrait.jpg") }}" alt="">
+			</div>
+		</div>
+	</div>
 
-	<button>
-		Discover
-	</button>
+	<div class="container mx-auto pt-10 pb-10">
+		<div class="flex flex-row justify-center items-center">
+			<div class="basis-1/1">
+				<img class="w-96 shadow-[-20px_20px_0px_0px_#9dc4bc]" src="{{ asset("img/Image_about.jpg") }}" alt="">
+			</div>
 
-	<img src="/assets/img/portrait.jpg" alt="">
+			<div class="basis-1/3 text-center">
+				<h2 class="text-3xl text-blue font-bold pb-5">
+					About
+				</h2>
+				<p class="text-brown pb-5">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				</p>
 
+				<button class="bg-white border-2 border-blue rounded-full text-blue px-20 py-3">
+					Learn more
+				</button>
+				<button class="bg-blue border-2 border-blue rounded-full text-white px-10 py-3">
+					Book an appointment
+				</button>
 
-	<h2 class="text-3xl text-blue font-bold">
-		About
-	</h2>
-	<img src="" alt="">
-	<p>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-	</p>
+			</div>
+		</div>
+	</div>
 
-	<button>
-		Learn more
-	</button>
-	<button>
-		Book an appointment
-	</button>
+	<div class="container mx-auto pt-10 pb-10">
+		<h2 class="text-3xl text-blue font-bold text-center">
+			Customer reviews
+		</h2>
 
-	<h2 class="text-3xl text-blue font-bold">
-		Customer reviews
-	</h2>
+		<div class="flex flex-row justify-center items-center pt-5 pb-5">
+			{% for review in reviews | slice(0,1) %}
+				<div class="basis-1/1">
+					<img class="w-48 rounded-full max-w-full" src="{{ asset(review.picture) }}" alt="">
+				</div>
 
-	<h2 class="text-3xl text-blue font-bold">
+				<div class="basis-1/3 text-center">
+					<h3 class="text-2xl text-blue font-bold">
+						{{ review.name }}
+					</h3>
+
+					<p>
+						{{ review.text }}
+					</p>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+
+	<h2 class="text-3xl text-blue font-bold text-center">
 		Contact
 	</h2>
 
-	<form>
-		<input id="lastname" type="text" class="border" placeholder="Enter your last name">
-		<input id="firstname" type="text" class="border" placeholder="Enter your first name">
-		<input id="tel" type="tel" class="border" placeholder="Enter your phone number">
-		<input id="email" type="email" class="border" placeholder="Enter your address e-mail">
-		<input id="password" type="password" class="border" placeholder="Enter your password">
-		<input id="confirmPassword" type="password" class="border" placeholder="Confirm your password">
-		<textarea id="message" name="message" rows="5" cols="33" class="border" placeholder="Write your message...">
-		</textarea>
-         <input id="default-checkbox" type="checkbox" value="">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit
+<div class="container mx-auto w-9/12 flex flex-col justify-center items-center">
+	<form class="">
+		<input id="lastname" type="text" class="border ps-5 py-2 w-full my-2" placeholder="Enter your last name">
+		<input id="firstname" type="text" class="border ps-5 py-2 w-full my-2" placeholder="Enter your first name">
+		<input id="tel" type="tel" class="border ps-5 py-2 w-full my-2" placeholder="Enter your phone number">
+		<input id="email" type="email" class="border ps-5 py-2 w-full my-2" placeholder="Enter your address e-mail">
+		<input id="password" type="password" class="border ps-5 py-2 w-full my-2" placeholder="Enter your password">
+		<input id="confirmPassword" type="password" class="border ps-5 py-2 w-full my-2" placeholder="Confirm your password">
+		<textarea id="message" name="message" rows="5" class="border ps-5 py-2 w-full my-2" placeholder="Write your message..."></textarea>
+		<input id="default-checkbox" type="checkbox" value="">
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit
 	</form>
-
+</div>
 {% endblock %}
