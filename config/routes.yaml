@@ -1,0 +1,8 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+hello_route:
+    path: /index
+    controller: App\Controller\HomeController::index

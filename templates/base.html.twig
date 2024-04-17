@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
+    </head>
+    <body>
+
+    <header class="bg-pink text-white">
+        <div class="container mx-auto">
+            <div>
+                <p>Coach Développement Personnel - May-Dia Yang</p>
+            </div>
+
+            <div>
+                <ul>
+                    <li>
+                        <a href="{{ path("home") }}">
+                            Homepage
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path("appointment") }}">
+                            Appointment
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path("about") }}">
+                            About
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path("contact") }}">
+                            Contact
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            Login
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+        {% block body %}{% endblock %}
+    
+    <footer class="bg-pink text-white">
+        <div class="container mx-auto">
+            <ul>
+                <li>
+                    <a href="">
+                        Privacy policy
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        Legal notice
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        General Conditions of Use and Sales
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </footer>
+
+    </body>
+</html>

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ContactController!{% endblock %}
+
+{% block body %}
+<h2>
+    Contact
+</h2>
+
+	<form>
+		<input id="lastname" type="text" placeholder="Enter your last name">
+		<input id="firstname" type="text" placeholder="Enter your first name">
+		<input id="tel" type="tel" placeholder="Enter your phone number">
+		<input id="email" type="email" placeholder="Enter your address e-mail">
+		<input id="password" type="password" placeholder="Enter your password">
+		<input id="confirmPassword" type="password" placeholder="Confirm your password">
+        <button>Send</button>
+	</form>
+{% endblock %}
