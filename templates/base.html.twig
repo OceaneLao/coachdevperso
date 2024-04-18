@@ -1,82 +1,118 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+			{% block importmap %}
+				{{ importmap('app') }}
+			{% endblock %}
+		{% endblock %}
+	</head>
+	<body>
 
-    <header class="sticky top-0 bg-pink text-white">
-        <div class="container mx-auto flex flex-row items-center justify-center">
-            <div class="basis-1/2 flex flex-row items-center justify-center p-5">
-                <img class="w-10" src="{{ asset("img/logo.png") }}" alt="Logo lotus">
-                <p class="ps-5 pe-5">Coach Développement Personnel - May-Dia Yang</p>
+		<header class="sticky top-0 bg-pink text-white">
+			<div class="container mx-auto flex flex-row items-center justify-center">
+				<div class="basis-1/2 flex flex-row items-center justify-center p-5">
+					<img class="w-10" src="{{ asset("img/logo.png") }}" alt="Logo lotus">
+					<p class="ps-5 pe-5">Coach Développement Personnel - May-Dia Yang</p>
+				</div>
+
+				<div class="basis-1/2">
+					<ul class="flex flex-wrap items-center justify-center">
+						<li class="p-5">
+							<a href="{{ path("home") }}">
+								Homepage
+							</a>
+						</li>
+						<li class="p-5">
+							<a href="{{ path("appointment") }}">
+								Appointment
+							</a>
+						</li>
+						<li class="p-5">
+							<a href="{{ path("about") }}">
+								About
+							</a>
+						</li>
+						<li class="p-5">
+							<a href="{{ path("contact") }}">
+								Contact
+							</a>
+						</li>
+						<li class="p-5">
+							<button id="login-modal-btn">
+								Login
+							</button>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+        </header>
+
+{% block body %}{% endblock %}
+
+<footer class="bg-pink text-white">
+	<div class="container mx-auto">
+		<ul class="flex flex-row justify-center items-center">
+			<li class="p-5">
+				<a href="">
+					Privacy policy
+				</a>
+			</li>
+			<li class="p-5">
+				<a href="">
+					Legal notice
+				</a>
+			</li>
+			<li class="p-5">
+				<a href="">
+					General Conditions of Use and Sales
+				</a>
+			</li>
+		</ul>
+	</div>
+</footer>
+
+    {# Modal wrapper #}
+    <div id="modal-wrapper" class="fixed z-10 inset-0 hidden">
+        <div class="flex items-center justify-center min-h-screen bg-blue bg-opacity-50 transition-all">
+	{# Modal box #}
+	<div class="bg-white p-10">
+		<h2 class="text-3xl text-blue font-bold pb-5 text-center">Login</h2>
+		<form>
+			<div class="flex flex-col justify-center items-center">
+				<input id="lastname" type="text" class="border ps-5 py-2 w-full my-2 me-1" placeholder="Enter your last name">
+				<input id="firstname" type="text" class="border ps-5 py-2 w-full my-2 ms-1" placeholder="Enter your first name">
+			
+			<button class="bg-blue border-2 border-blue rounded-full text-white px-10 py-3 my-3">
+				Login
+			</button>
+            <button id="close-modal-btn" class="bg-white border-2 border-blue rounded-full text-blue px-10 py-3 my-3">
+				Close
+			</button>
             </div>
+		</form>
+	</div>
+</div>
+<script>
+    document.getElementById("login-modal-btn").addEventListener("click", ()=>{
+        document.getElementById("modal-wrapper").classList.remove("hidden")
+    })
 
-            <div class="basis-1/2">
-                <ul class="flex flex-wrap items-center justify-center">
-                    <li class="p-5">
-                        <a href="{{ path("home") }}">
-                            Homepage
-                        </a>
-                    </li>
-                    <li class="p-5">
-                        <a href="{{ path("appointment") }}">
-                            Appointment
-                        </a>
-                    </li>
-                    <li class="p-5">
-                        <a href="{{ path("about") }}">
-                            About
-                        </a>
-                    </li>
-                    <li class="p-5">
-                        <a href="{{ path("contact") }}">
-                            Contact
-                        </a>
-                    </li>
-                    <li class="p-5">
-                        <a href="">
-                            Login
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </header>
-
-        {% block body %}{% endblock %}
-    
-    <footer class="bg-pink text-white">
-        <div class="container mx-auto">
-            <ul class="flex flex-row justify-center items-center">
-                <li class="p-5">
-                    <a href="">
-                        Privacy policy
-                    </a>
-                </li>
-                <li class="p-5">
-                    <a href="">
-                        Legal notice
-                    </a>
-                </li>
-                <li class="p-5">
-                    <a href="">
-                        General Conditions of Use and Sales
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </footer>
-
-    </body>
+    document.getElementById("close-modal-btn").addEventListener("click", ()=>{
+        document.getElementById("modal-wrapper").classList.add("hidden")
+    })
+</script>
+</body>
 </html>
