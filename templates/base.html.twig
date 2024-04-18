@@ -3,7 +3,8 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>
-			{% block title %}Welcome!
+			{% block title %}
+                Homepage
 			{% endblock %}
 		</title>
 		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
@@ -18,7 +19,7 @@
 			{% endblock %}
 		{% endblock %}
 	</head>
-	<body>
+	<body class="flex flex-col min-h-screen">
 
 		<header class="sticky top-0 bg-pink text-white">
 			<div class="container mx-auto flex flex-row items-center justify-center">
@@ -60,9 +61,12 @@
 		</div>
         </header>
 
-{% block body %}{% endblock %}
+{% block body %}
+	{% block content %}
+	{% endblock %}
+{% endblock %}
 
-<footer class="bg-pink text-white">
+<footer class="mt-auto bg-pink text-white">
 	<div class="container mx-auto">
 		<ul class="flex flex-row justify-center items-center">
 			<li class="p-5">
@@ -92,8 +96,11 @@
 		<h2 class="text-3xl text-blue font-bold pb-5 text-center">Login</h2>
 		<form>
 			<div class="flex flex-col justify-center items-center">
-				<input id="lastname" type="text" class="border ps-5 py-2 w-full my-2 me-1" placeholder="Enter your last name">
-				<input id="firstname" type="text" class="border ps-5 py-2 w-full my-2 ms-1" placeholder="Enter your first name">
+				<input id="email" type="text" class="border ps-5 py-2 w-full my-2 me-1" placeholder="Enter your email">
+				<input id="password" type="text" class="border ps-5 py-2 w-full my-2 ms-1" placeholder="Enter your password">
+                <p>
+                    <a href="">Forget your password ?</a>
+                </p>
 			
 			<button class="bg-blue border-2 border-blue rounded-full text-white px-10 py-3 my-3">
 				Login
@@ -102,6 +109,11 @@
 				Close
 			</button>
             </div>
+
+            <p class="text-center">
+               No account ? 
+                <a href="{{ path("register")}} ">Register</a>
+            </p>
 		</form>
 	</div>
 </div>

@@ -10,9 +10,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 use App\Form\UserType;
 
-class ContactController extends AbstractController
+class RegisterController extends AbstractController
 {
-    #[Route('/contact', name: 'contact', methods: ['GET', 'POST'])]
+    #[Route('/register', name: 'register', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
@@ -26,9 +26,8 @@ class ContactController extends AbstractController
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('contact/index.html.twig', [
-            'controller_name' => 'ContactController',
-            'controller_name' => 'HomeController',
+        return $this->render('register/index.html.twig', [
+            'controller_name' => 'RegisterController',
             'user' => $user,
             'form' => $form,
         ]);

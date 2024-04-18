@@ -1,8 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!
-{% endblock %}
-
 {% block body %}
 	<div class="container mx-auto py-10">
 		<div class="flex flex-row justify-center items-center">
@@ -76,34 +73,6 @@
 	</div>
 
 	<div class="container mx-auto w-9/12 flex flex-col justify-center py-10">
-		<h2 class="text-3xl text-blue font-bold text-center">
-			Contact
-		</h2>
-		<form class="text-center">
-			<div class="flex flex-row">
-				<input id="lastname" type="text" class="border ps-5 py-2 w-full my-2 me-1" placeholder="Enter your last name">
-				<input id="firstname" type="text" class="border ps-5 py-2 w-full my-2 ms-1" placeholder="Enter your first name">
-			</div>
-
-			<div class="flex flex-row">
-				<input id="tel" type="tel" class="border ps-5 py-2 w-full my-2 me-1" placeholder="Enter your phone number">
-				<input id="email" type="email" class="border ps-5 py-2 w-full my-2 ms-1" placeholder="Enter your address e-mail">
-			</div>
-
-			<div class="flex flex-row">
-				<input id="password" type="password" class="border ps-5 py-2 w-full my-2 me-1" placeholder="Enter your password">
-				<input id="confirmPassword" type="password" class="border ps-5 py-2 w-full my-2 ms-1" placeholder="Confirm your password">
-			</div>
-
-			<textarea id="message" name="message" rows="5" class="border ps-5 py-2 w-full my-2" placeholder="Write your message..."></textarea>
-			<div class="text-center">
-				<input id="default-checkbox" type="checkbox" value="">
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit
-			</div>
-
-			<button class="bg-blue border-2 border-blue rounded-full text-white px-10 py-3 my-3">
-				Send
-			</button>
-		</form>
+	{% include "contact/index.html.twig" %}
 	</div>
 {% endblock %}
