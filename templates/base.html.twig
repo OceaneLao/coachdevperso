@@ -100,11 +100,11 @@
 				<input id="email" type="text" class="border ps-5 py-2 w-full my-2 me-1" placeholder="Enter your email">
 				<input id="password" type="text" class="border ps-5 py-2 w-full my-2 ms-1" placeholder="Enter your password">
                 <p>
-                    <a href="">Forget your password ?</a>
+                    <a href="{{ path("forgetpassword") }}">Forget your password ?</a>
                 </p>
 			
 			<button class="bg-blue border-2 border-blue rounded-full text-white px-10 py-3 my-3">
-				Login
+				<a href="{{ path("login") }}">Login</a>
 			</button>
             <button id="close-modal-btn" class="bg-white border-2 border-blue rounded-full text-blue px-10 py-3 my-3">
 				Close

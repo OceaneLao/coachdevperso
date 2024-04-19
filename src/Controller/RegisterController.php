@@ -2,17 +2,19 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/register')]
 class RegisterController extends AbstractController
 {
-    #[Route('/register', name: 'register', methods: ['GET', 'POST'])]
+    #[Route('/', name: 'register', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
@@ -23,13 +25,18 @@ class RegisterController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('register_confirm', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('register/index.html.twig', [
-            'controller_name' => 'RegisterController',
             'user' => $user,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/confirm', name: 'register_confirm', methods: ['GET'])]
+    public function show(): Response
+    {
+        return $this->render('register/confirm.html.twig');
     }
 }

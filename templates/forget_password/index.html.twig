@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Forget Password
+{% endblock %}
+
+{% block body %}
+<div class="container mx-auto w-9/12 flex flex-col justify-center items-center py-10 text-center">
+	<h2 class="text-3xl text-blue font-bold text-center">
+		Forget password ?
+	</h2>
+
+	<form action="">
+		<input type="email" id="email" name="email" placeholder="Enter your email adress" class="border ps-5 py-2 w-full my-2 me-1">
+        <input type="submit" value="Submit" class="btn bg-blue border-2 border-blue rounded-full text-white px-10 py-3 my-3">
+	</form>
+</div>
+{% endblock %}

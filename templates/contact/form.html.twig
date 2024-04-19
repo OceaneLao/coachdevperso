@@ -1,7 +1,8 @@
-<div class="container mx-auto w-9/12 flex flex-col justify-center items-center py-10">
+<div class="container mx-auto w-9/12 flex flex-col justify-center py-10">
 	<h2 class="text-3xl text-blue font-bold text-center">
 		Contact
 	</h2>
+
 
 	{{ form_start(form, {
             'attr':{
@@ -9,40 +10,63 @@
             }
         }) }}
 
-	{{ form_widget(form.first_name, {
-            'attr':{
-                'placeholder': 'Enter your first name*',
-                'class': 'border ps-5 py-2 w-full my-2 me-1',
+	<div class="flex flex-row justify-between">
+		<div class="basis-1/2 me-1">
+			<div class="flex flex-row justify-center items-center">
+				{{ form_widget(form.first_name, {
+                'attr':{
+					'placeholder': 'Enter your first name*',
+					'class': 'border ps-5 py-2 w-full my-2',
+                }
+                }) }}
+			</div>
+		</div>
+
+		<div class="basis-1/2 ms-1">
+            <div class="flex flex-row justify-center items-center">
+			{{ form_widget(form.last_name, {
+                'attr':{
+                    'placeholder': 'Enter your last name*',
+                    'class': 'border ps-5 py-2 w-full my-2',
                 }
         }) }}
+            </div>
+		</div>
+	</div>
 
-	{{ form_widget(form.last_name, {
-            'attr':{
-                'placeholder': 'Enter your last name*',
-                'class': 'border ps-5 py-2 w-full my-2 me-1',
-                }
-        }) }}
-
-	{{ form_widget(form.phone_number, {
+	<div class="flex flex-row justify-center">
+		<div class="basis-1/2 me-1">
+			{{ form_widget(form.phone_number, {
             'attr':{
                 'placeholder': 'Enter your phone number*',
-                'class': 'border ps-5 py-2 w-full my-2 me-1',
+                'class': 'border ps-5 py-2 w-full my-2',
                 }
         }) }}
-
-	{{ form_widget(form.email, {
+		</div>
+		<div class="basis-1/2 ms-1">
+			{{ form_widget(form.email, {
             'attr':{
                 'placeholder': 'Enter your e-mail address*',
-                'class': 'border ps-5 py-2 w-full my-2 me-1',
+                'class': 'border ps-5 py-2 w-full my-2',
                 }
         }) }}
+		</div>
+	</div>
 
-	{{ form_widget(form.password, {
+	<div class="flex flex-row justify-center">
+		<div class="basis-1/2 me-1">
+			{{ form_widget(form.password, {
             'attr':{
                 'placeholder': 'Enter your password*',
-                'class': 'border ps-5 py-2 w-full my-2 me-1',
+                'class': 'border ps-5 py-2 w-full my-2',
                 }
         }) }}
+		</div>
+		<div class="basis-1/2 ms-1">
+			<input type="text" class="border ps-5 py-2 w-full my-2" placeholder="Confirm your password*">
+		</div>
+	</div>
+
 
 	<textarea id="message" name="message" rows="5" class="border ps-5 py-2 w-full my-2" placeholder="Write your message..."></textarea>
 	<div class="text-center">
