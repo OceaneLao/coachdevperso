@@ -1,0 +1,63 @@
+<div class="container mx-auto w-9/12 flex flex-col justify-center items-center py-10">
+	<h2 class="text-3xl text-blue font-bold text-center">
+		Contact
+	</h2>
+
+	{{ form_start(form, {
+            'attr':{
+                'class':'text-center'
+            }
+        }) }}
+
+	{{ form_widget(form.first_name, {
+            'attr':{
+                'placeholder': 'Enter your first name*',
+                'class': 'border ps-5 py-2 w-full my-2 me-1',
+                }
+        }) }}
+
+	{{ form_widget(form.last_name, {
+            'attr':{
+                'placeholder': 'Enter your last name*',
+                'class': 'border ps-5 py-2 w-full my-2 me-1',
+                }
+        }) }}
+
+	{{ form_widget(form.phone_number, {
+            'attr':{
+                'placeholder': 'Enter your phone number*',
+                'class': 'border ps-5 py-2 w-full my-2 me-1',
+                }
+        }) }}
+
+	{{ form_widget(form.email, {
+            'attr':{
+                'placeholder': 'Enter your e-mail address*',
+                'class': 'border ps-5 py-2 w-full my-2 me-1',
+                }
+        }) }}
+
+	{{ form_widget(form.password, {
+            'attr':{
+                'placeholder': 'Enter your password*',
+                'class': 'border ps-5 py-2 w-full my-2 me-1',
+                }
+        }) }}
+
+	<textarea id="message" name="message" rows="5" class="border ps-5 py-2 w-full my-2" placeholder="Write your message..."></textarea>
+	<div class="text-center">
+		<input id="default-checkbox" type="checkbox" value="">
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit
+	</div>
+
+	<button class="btn bg-blue border-2 border-blue rounded-full text-white px-10 py-3 my-3">{{ button_label|default('Send') }}</button>
+
+	{{
+				form_widget(form.message,{
+					'attr': {
+						'class':'hidden'
+					}
+				})
+			}}
+	{{ form_end(form)}}
+</div>

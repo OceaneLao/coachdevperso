@@ -12,8 +12,8 @@ use App\Form\UserType;
 
 class HomeController extends AbstractController
 {
-    #[Route('/home', name: 'home', methods:['GET'])]
-    public function index(): Response
+    #[Route('/home', name: 'home', methods:['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $reviews = [
             [
@@ -42,15 +42,6 @@ class HomeController extends AbstractController
                 'text' => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
             ]
         ];
-        return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
-            'reviews' => $reviews,
-        ]);
-    }
-
-    #[Route('/new', name: 'app_user_new', methods:['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -62,7 +53,9 @@ class HomeController extends AbstractController
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('user/new.html.twig', [
+        return $this->render('home/index.html.twig', [
+            'controller_name' => 'HomeController',
+            'reviews' => $reviews,
             'user' => $user,
             'form' => $form,
         ]);

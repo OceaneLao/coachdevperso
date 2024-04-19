@@ -17,8 +17,7 @@ class UserType extends AbstractType
             ->add('phone_number')
             ->add('email')
             ->add('password')
-            ->add('message')
-        ;
+            ->add('message');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
