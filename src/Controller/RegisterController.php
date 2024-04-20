@@ -15,13 +15,15 @@ use Symfony\Component\Routing\Attribute\Route;
 class RegisterController extends AbstractController
 {
     #[Route('/', name: 'register', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+            
             $entityManager->persist($user);
             $entityManager->flush();
 

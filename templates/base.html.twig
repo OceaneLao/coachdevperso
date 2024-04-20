@@ -62,10 +62,10 @@
 		</div>
         </header>
 
-{% block body %}
-	{% block content %}
+	{% block body %}
+		{% block content %}
+		{% endblock %}
 	{% endblock %}
-{% endblock %}
 
 <footer class="mt-auto bg-pink text-white">
 	<div class="container mx-auto">
@@ -92,32 +92,22 @@
     {# Modal wrapper #}
     <div id="modal-wrapper" class="fixed z-10 inset-0 hidden">
         <div class="flex items-center justify-center min-h-screen bg-blue bg-opacity-50 transition-all">
-	{# Modal box #}
-	<div class="bg-white p-10">
-		<h2 class="text-3xl text-blue font-bold pb-5 text-center">Login</h2>
-		<form>
-			<div class="flex flex-col justify-center items-center">
-				<input id="email" type="text" class="border ps-5 py-2 w-full my-2 me-1" placeholder="Enter your email">
-				<input id="password" type="text" class="border ps-5 py-2 w-full my-2 ms-1" placeholder="Enter your password">
-                <p>
-                    <a href="{{ path("forgetpassword") }}">Forget your password ?</a>
-                </p>
-			
+		{# Modal box #}
+		<div class="bg-white p-10 flex flex-col justify-center items-center">
+			<span id="close-modal-btn" class="text-blue px-10 py-3 my-3">
+				<i class="fa fa-times" aria-hidden="true"></i>
+			</span>
+
 			<button class="bg-blue border-2 border-blue rounded-full text-white px-10 py-3 my-3">
 				<a href="{{ path("login") }}">Login</a>
 			</button>
-            <button id="close-modal-btn" class="bg-white border-2 border-blue rounded-full text-blue px-10 py-3 my-3">
-				Close
-			</button>
-            </div>
 
-            <p class="text-center">
-               No account ? 
-                <a href="{{ path("register")}} ">Register</a>
-            </p>
-		</form>
+			<button class="bg-blue border-2 border-blue rounded-full text-white px-10 py-3 my-3">
+				<a href="{{ path("register") }}">Register</a>
+			</button>
+		</div>
 	</div>
-</div>
+
 <script>
     document.getElementById("login-modal-btn").addEventListener("click", ()=>{
         document.getElementById("modal-wrapper").classList.remove("hidden")

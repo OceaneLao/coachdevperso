@@ -53,13 +53,6 @@
 
 			{# <input id="confirmPassword" type="password" class="border ps-5 py-2 w-full my-2 ms-1" placeholder="Confirm your password"> #}
 
-			{{ form_widget(form.message, {
-            'attr':{
-                'placeholder': 'Enter your password*',
-                'class': 'hidden',
-                }
-        }) }}
-
 			<div class="text-center">
 				<input id="default-checkbox" type="checkbox" value="">
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit
@@ -68,6 +61,7 @@
 
 			<button class="btn bg-blue border-2 border-blue rounded-full text-white px-10 py-3 my-3">{{ button_label|default('Register') }}
 			</button>
+
 			{{ form_end(form)}}
 		</div>
 	</div>
