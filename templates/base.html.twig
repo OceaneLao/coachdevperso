@@ -4,7 +4,7 @@
 		<meta charset="UTF-8">
 		<title>
 			{% block title %}
-                Homepage
+				Homepage
 			{% endblock %}
 		</title>
 		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
@@ -60,62 +60,56 @@
 				</div>
 			</div>
 		</div>
-        </header>
+	</body>
+</html></header>{% block body %}
+{% block content %}{% endblock %}{% endblock %}<footer class="mt-auto bg-pink text-white">
+<div class="container mx-auto">
+	<ul class="flex flex-row justify-center items-center">
+		<li class="p-5">
+			<a href="">
+				Privacy policy
+			</a>
+		</li>
+		<li class="p-5">
+			<a href="">
+				Legal notice
+			</a>
+		</li>
+		<li class="p-5">
+			<a href="">
+				General Conditions of Use and Sales
+			</a>
+		</li>
+	</ul>
+</div></footer>{# Modal wrapper #}<div id="modal-wrapper" class="fixed z-10 inset-0 hidden">
+<div
+	class="flex items-center justify-center min-h-screen bg-blue bg-opacity-50 transition-all">
+	{# Modal box #}
+	<div class="bg-white p-10 flex flex-col justify-center items-center">
+		<span id="close-modal-btn" class="text-blue px-10 py-3 my-3">
+			<i class="fa fa-times" aria-hidden="true"></i>
+		</span>
 
-	{% block body %}
-		{% block content %}
-		{% endblock %}
-	{% endblock %}
-
-<footer class="mt-auto bg-pink text-white">
-	<div class="container mx-auto">
-		<ul class="flex flex-row justify-center items-center">
-			<li class="p-5">
-				<a href="">
-					Privacy policy
-				</a>
-			</li>
-			<li class="p-5">
-				<a href="">
-					Legal notice
-				</a>
-			</li>
-			<li class="p-5">
-				<a href="">
-					General Conditions of Use and Sales
-				</a>
-			</li>
-		</ul>
-	</div>
-</footer>
-
-    {# Modal wrapper #}
-    <div id="modal-wrapper" class="fixed z-10 inset-0 hidden">
-        <div class="flex items-center justify-center min-h-screen bg-blue bg-opacity-50 transition-all">
-		{# Modal box #}
-		<div class="bg-white p-10 flex flex-col justify-center items-center">
-			<span id="close-modal-btn" class="text-blue px-10 py-3 my-3">
-				<i class="fa fa-times" aria-hidden="true"></i>
-			</span>
-
+		<a href="{{ path('app_login') }}">
 			<button class="bg-blue border-2 border-blue rounded-full text-white px-10 py-3 my-3">
-				<a href="">Login</a>
+				Login
 			</button>
+		</a>
 
+		<a href="{{ path('app_register') }}">
 			<button class="bg-blue border-2 border-blue rounded-full text-white px-10 py-3 my-3">
-				<a href="">Register</a>
+				Register
 			</button>
-		</div>
+		</a>
 	</div>
+</div>
 
 <script>
-    document.getElementById("open-modal-btn").addEventListener("click", ()=>{
-        document.getElementById("modal-wrapper").classList.remove("hidden")
-    })
+	document.getElementById("open-modal-btn").addEventListener("click", () => {
+document.getElementById("modal-wrapper").classList.remove("hidden")
+})
 
-    document.getElementById("close-modal-btn").addEventListener("click", ()=>{
-        document.getElementById("modal-wrapper").classList.add("hidden")
-    })
-</script>
-</body>
-</html>
+document.getElementById("close-modal-btn").addEventListener("click", () => {
+document.getElementById("modal-wrapper").classList.add("hidden")
+})
+</script></body></html>
