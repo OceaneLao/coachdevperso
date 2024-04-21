@@ -1,15 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Hello
-	{{ app.user.email }}
+	{{ app.user.firstName }}
+	{{ app.user.lastName }}
 {% endblock %}
 
 {% block body %}
 	<div class="container mx-auto w-9/12 flex flex-col justify-center pt-10 py-5">
-		<p>
+		<h2 class="text-3xl text-blue font-bold pb-5">
 			Hello
-			{{ app.user.email }}
-		</p>
+			{{ app.user.firstName }}
+			{{ app.user.lastName }}
+		</h2>
 
 		<div class="flex flex-row">
 			<div class="basis-1/2">

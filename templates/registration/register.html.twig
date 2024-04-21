@@ -15,6 +15,28 @@
 			{{ form_errors(registrationForm) }}
 
 			{{ form_start(registrationForm) }}
+
+            {{ form_widget(registrationForm.firstName, {
+                'attr': {
+                    'class': 'border ps-5 py-2 w-full my-2 me-1',
+                    'placeholder': 'Enter your first name',
+                }
+            }) }}
+            
+            {{ form_widget(registrationForm.lastName, {
+                'attr': {
+                    'class': 'border ps-5 py-2 w-full my-2 me-1',
+                    'placeholder': 'Enter your last name',
+                }
+            }) }}
+
+            {{ form_widget(registrationForm.phoneNumber, {
+                'attr': {
+                    'class': 'border ps-5 py-2 w-full my-2 me-1',
+                    'placeholder': 'Enter your phone number',
+                }
+            }) }}
+
 			{{ form_widget(registrationForm.email, {
                 'attr': {
                     'class': 'border ps-5 py-2 w-full my-2 me-1',
