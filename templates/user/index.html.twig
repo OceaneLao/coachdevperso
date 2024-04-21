@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello
+	{{ app.user.email }}
+{% endblock %}
+
+{% block body %}
+	<div class="container mx-auto w-9/12 flex flex-col justify-center pt-10 py-5">
+		<p>
+			Hello
+			{{ app.user.email }}
+		</p>
+
+		<div class="flex flex-row">
+			<div class="basis-1/2">
+				<h2>
+					No appointment scheduled
+				</h2>
+				<button>
+					Book an appointment
+				</button>
+			</div>
+
+			<div class="basis-1/2">
+				<h2>
+					Final payments
+				</h2>
+				<p>
+					No tickets
+				</p>
+
+				<a href="{{ path('app_logout') }}">Logout</a>
+			</div>
+		</div>
+	</div>
+</div>{% endblock %}
