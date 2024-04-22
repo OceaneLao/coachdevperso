@@ -21,6 +21,7 @@ class UserCrudController extends AbstractCrudController
         return $crud
         ->setPageTitle('index', 'Administration des utilisateurs');
     }
+
     /*
     public function configureFields(string $pageName): iterable
     {
