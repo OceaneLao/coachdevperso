@@ -1,56 +1,85 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Appointment
+{% block title %}
+    Appointment
 {% endblock %}
 
 {% block body %}
-	<div class="container mx-auto w-9/12 flex flex-col pt-10 text-center">
+    <div class="container mx-auto py-10 w-full text-center">
+        <h1 class="text-3xl text-blue font-bold mb-2">
+            Book an appointment
+        </h1>
+        <p class="text-pink mb-2">
+            Select a date
+        </p>
 
-		<h1 class="text-3xl text-blue font-bold pb-5">
-			Book an appointment
-		</h1>
-		<p>
-			Select a date
-		</p>
+        {# Trier les rendez-vous par date croissante #}
+        {% set sortedAppointments = appointments|sort((a, b) => a.startedAt.timestamp - b.startedAt.timestamp) %}
 
-		{# Accordion #}
-		<div class="accordion">
-		{# set permet d'attribuer une valeur à une variable
-					{% set variable = valeur %} 
-				#}
-		{# Stocker la dernière date affichée #}
-		{% set currentDate = null %}
+        {# Initialiser une liste de dates uniques #}
+        {% set uniqueDates = [] %}
 
-		{# Boucle for pour parcourir les données #}
-			{% for appointment in appointments %}
-			
-			{# Formater la date |date('m/d/Y') #}
-			{% set apppointmentDate = appointment.startedAt|date('m/d/Y') %}
-			{# Condition pour vérifier s'il existe une nouvelle date #}
-				{% if apppointmentDate != currentDate %}
-				{% if currentDate is not null %}
-				</div>{# Fermer la div précédente #}
-			{% endif %}
+        {# Stocker les dates uniques dans la liste #}
+        {% for appointment in sortedAppointments %}
+            {% set currentDate = appointment.startedAt|date('m/d/Y') %}
+            {% if currentDate not in uniqueDates %}
+				{# Combiner la liste actuelle 'uniquesDates' avec la nouvelle liste 'currentDate' #}
+                {% set uniqueDates = uniqueDates|merge([currentDate]) %}
+            {% endif %}
+        {% endfor %}
 
-			<div class="item">		
-				{% set currentDate = appointment.startedAt|date('m/d/Y') %}
-					<h2 class="border px-10 py-2 mt-10">
-						{{ currentDate }}
-						{# Afficher la date qu'une seule fois #}
-					</h2>
-				{% endif %}
+        {# Boucle sur les dates uniques #}
+        {% for currentDate in uniqueDates %}
+            {# Ouvrir une div pour chaque date unique #}
+            <div class="text-center mb-2">
+				<button 
+				data-collapse-target = "collapse_{{ loop.index }}"
+				class="bg-white text-center text-brown rounded-md border py-2 px-28 mb-2">    
+					{{ currentDate }}
+                </button>
 
-					<span class="border">
-					{{ appointment.startedAt.format('H:i') }}
-					</span>
-	
-				{% set lastDate = appointment.startedAt|date('m/d/Y') %}
-		
-			{% if loop.last %}
-			</div>
-			{# Fermer la dernière div #}
-		{% endif %}
-	{% endfor %}
-			</div>			
-		</div>
+                {# Afficher les horaires associés à cette date #}
+                <div data-collapse = "collapse_{{ loop.index }}"
+					class="block h-0 w-full overflow-hidden transition-all duration-300 ease-in-out">
+					<div class="text-pink">
+						Select a schedule
+						<div class="relative flex flex-row justify-center mb-10 columns-3">
+							{% for appointment in sortedAppointments %}
+								{% set appointmentDate = appointment.startedAt|date('m/d/Y') %}
+								{% if appointmentDate == currentDate %}
+									<button class="border rounded-full  px-5 py-2 m-2 text-brown">
+										{{ appointment.startedAt|date('H:i') }}
+									</button>
+								{% endif %}
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+            </div>
+        {% endfor %}
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const buttons = document.querySelectorAll('[data-collapse-target]');
+        buttons.forEach(function (button, index) {
+			button.addEventListener("click", function() {    
+				const targetId = this.getAttribute('data-collapse-target');
+                const target = document.querySelector(`[data-collapse="${targetId}"]`);
+
+                // Fermer tous les autres accordéons
+                document.querySelectorAll('[data-collapse]').forEach(item => {
+                    if (item.getAttribute('data-collapse') !== targetId) {
+                        item.classList.add('h-0');
+                        item.classList.remove('h-auto');
+                    }
+                });
+
+                // Ouvrir ou fermer l'accordéon cible
+                target.classList.toggle('h-auto');
+                target.classList.toggle('h-0');
+            });
+        });
+    });
+</script>
 {% endblock %}
