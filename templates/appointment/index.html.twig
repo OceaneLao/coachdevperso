@@ -31,8 +31,12 @@
         {# Boucle sur les dates uniques #}
         {% for currentDate in uniqueDates %}
             {# Ouvrir une div pour chaque date unique #}
-            <div class="text-center mb-2">
-				<button 
+            <form class="text-center mb-2" 
+            action={{ path('app_appointment_submit') }} 
+            method="POST">
+				<button
+                name= "selected_date"
+                value= "{{ currentDate }}"
 				data-collapse-target = "collapse_{{ loop.index }}"
 				class="bg-white text-center text-brown rounded-md border py-2 px-48 mb-2">    
 					{{ currentDate }}
@@ -47,23 +51,28 @@
 							{% for appointment in sortedAppointments %}
 								{% set appointmentDate = appointment.startedAt|date('m/d/Y') %}
 								{% if appointmentDate == currentDate %}
-									<button id="selectSchedule" class="bg-white border rounded-full px-5 py-2 text-brown">
-										{{ appointment.startedAt|date('H:i') }}
+									<button
+                                    name= "selected_schedule"
+                                    value= {{ appointment.startedAt|date('H:i') }}
+                                    id="selectSchedule" 
+                                    class="bg-white border rounded-full px-5 py-2 text-brown">
+										<a href="{{ path("app_appointment_submit") }}">{{ appointment.startedAt|date('H:i') }}
+                                        </a>
 									</button>
 								{% endif %}
 							{% endfor %}
 						</div>
 					</div>
 				</div>
-            </div>
+            </form>
         {% endfor %}
     </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
         const buttons = document.querySelectorAll('[data-collapse-target]');
         buttons.forEach(function (button, index) {
-			button.addEventListener("click", function() {
+			button.addEventListener("click", function(event) {
+                event.preventDefault(); //Empêche le comportement par défaut du bouton
 				const selectButton = document.querySelectorAll('button[data-collapse-target]').forEach(function(selectButton){
 				selectButton.classList.remove("bg-white", "text-brown");
 				selectButton.classList.add("bg-pink", "text-white");
@@ -85,28 +94,5 @@
                 target.classList.toggle('h-0');
             });
         });
-    });
-
-    const selectSchedule = document.querySelectorAll('#selectSchedule');
-    selectSchedule.forEach(function(schedule){
-        schedule.addEventListener("click", function(){
-            let confirmAppointment = window.confirm("Confirm your appointment ?");
-            if(confirmAppointment) {
-                if(isAuthenticated()) {
-                    
-                }else{
-                    window.location.href = "/register";   
-                }
-            }
-        });
-    });
-
-    // Fonction pour vérifier l'authentification de l'utilisateur
-    function isAuthenticated(){
-        //Requête AJAX à la route Symfony pour vérifierl'authentification de l'utilisateur
-        return fetch('/is-authenticated')
-            .then(response => response.text())
-            .then(isAuthenticated => isAuthenticated === 'true');
-    }
 </script>
 {% endblock %}
