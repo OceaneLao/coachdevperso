@@ -43,11 +43,11 @@
 					class="block h-0 flex flex-col items-center overflow-hidden transition-all duration-300 ease-in-out">
 					<div class="text-pink">
 						Select a schedule
-						<div class="relative flex flex-row justify-center mb-2 grid grid-cols-3 gap-4">
+						<div class="relative flex flex-row justify-center mb-2 grid grid-cols-3 gap-4 mt-2">
 							{% for appointment in sortedAppointments %}
 								{% set appointmentDate = appointment.startedAt|date('m/d/Y') %}
 								{% if appointmentDate == currentDate %}
-									<button class="bg-white border rounded-full px-5 py-2 text-brown">
+									<button id="selectSchedule" class="bg-white border rounded-full px-5 py-2 text-brown">
 										{{ appointment.startedAt|date('H:i') }}
 									</button>
 								{% endif %}
@@ -63,10 +63,15 @@
     document.addEventListener('DOMContentLoaded', function() {
         const buttons = document.querySelectorAll('[data-collapse-target]');
         buttons.forEach(function (button, index) {
-			button.addEventListener("click", function() {    
+			button.addEventListener("click", function() {
+				const selectButton = document.querySelectorAll('button[data-collapse-target]').forEach(function(selectButton){
+				selectButton.classList.remove("bg-white", "text-brown");
+				selectButton.classList.add("bg-pink", "text-white");
+				});
+				
 				const targetId = this.getAttribute('data-collapse-target');
                 const target = document.querySelector(`[data-collapse="${targetId}"]`);
-
+				
                 // Fermer tous les autres accordéons
                 document.querySelectorAll('[data-collapse]').forEach(item => {
                     if (item.getAttribute('data-collapse') !== targetId) {
@@ -81,5 +86,27 @@
             });
         });
     });
+
+    const selectSchedule = document.querySelectorAll('#selectSchedule');
+    selectSchedule.forEach(function(schedule){
+        schedule.addEventListener("click", function(){
+            let confirmAppointment = window.confirm("Confirm your appointment ?");
+            if(confirmAppointment) {
+                if(isAuthenticated()) {
+                    window.location.href = "/user";
+                }else{
+                    window.location.href = "/register";   
+                }
+            }
+        });
+    });
+
+    // Fonction pour vérifier l'authentification de l'utilisateur
+    function isAuthenticated(){
+        //Requête AJAX à la route Symfony pour vérifierl'authentification de l'utilisateur
+        return fetch('/is-authenticated')
+            .then(response => response.text())
+            .then(isAuthenticated => isAuthenticated === 'true');
+    }
 </script>
 {% endblock %}

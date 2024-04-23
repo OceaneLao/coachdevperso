@@ -96,6 +96,12 @@
 		</span>
 
 		{% if is_granted('ROLE_USER') %}
+		<a href="{{ path('app_user') }}">
+			<button class="bg-blue border-2 border-blue rounded-full text-white px-10 py-3 my-3">
+				My account
+			</button>
+		</a>
+		
 		<a href="">
 			<button class="bg-blue border-2 border-blue rounded-full text-white px-10 py-3 my-3">
 				Edit
