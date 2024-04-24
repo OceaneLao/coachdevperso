@@ -21,20 +21,20 @@
 
 		{# Stocker les dates uniques dans la liste #}
 		{% for appointment in sortedAppointments %}
-			{% set currentDate = appointment.startedAt|date('m/d/Y') %}
-			{% if currentDate not in uniqueDates %}
-				{# Combiner la liste actuelle 'uniquesDates' avec la nouvelle liste 'currentDate' #}
-				{% set uniqueDates = uniqueDates|merge([currentDate]) %}
+			{% if appointment.isAvailable %}
+				{% set currentDate = appointment.startedAt|date('m/d/Y') %}
+				{% if currentDate not in uniqueDates %}
+					{# Combiner la liste actuelle 'uniquesDates' avec la nouvelle liste 'currentDate' #}
+					{% set uniqueDates = uniqueDates|merge([currentDate]) %}
+				{% endif %}
 			{% endif %}
 		{% endfor %}
 
 		{# Boucle sur les dates uniques #}
 		{% for currentDate in uniqueDates %}
 			{# Ouvrir une div pour chaque date unique #}
-			{# <form class="text-center mb-2" 
-			            action={{ path('app_appointment_submit') }} 
-			            method="POST"> #}
-				<button name="selected_date" value="{{ currentDate }}" data-collapse-target="collapse_{{ loop.index }}" class="bg-white text-center text-brown rounded-md border py-2 px-48 mb-2"> {{ currentDate }}
+			<button name="selected_date" data-collapse-target="collapse_{{ loop.index }}" class="bg-white text-center text-brown rounded-md border py-2 px-48 mb-2">
+				{{ currentDate }}
 			</button>
 
 			{# Afficher les horaires associés à cette date #}
@@ -46,50 +46,45 @@
 							{% set appointmentDate = appointment.startedAt|date('m/d/Y') %}
 							{% if appointmentDate == currentDate %}
 								<form action="{{ path('app_appointment_submit', {'id': appointment.id}) }}" method="post">
-									<button
-										name="selected_schedule" 
-                                        type="submit" 
-                                        onclick="confirm('?');"
-                                        id="selectSchedule" class="bg-white border rounded-full px-5 py-2 text-brown">
-										{# <a href="{{ path("app_appointment_submit", {'id': appointment.id}) }}"> #}
-										{{ appointment.startedAt|date('H:i') }}
-										{# </a> #}
-									</button>
+									{% if appointment.isAvailable %}
+										<button name="selected_schedule" type="submit" onclick="confirm('?');" id="selectSchedule" class="bg-white border rounded-full px-5 py-2 text-brown">
+											{{ appointment.startedAt|date('H:i') }}
+										</button>
+									{% endif %}
 								</form>
 							{% endif %}
 						{% endfor %}
 					</div>
 				</div>
 			</div>
-			{# </form> #}
 		{% endfor %}
 	</div>
 
 	<script>
 		const buttons = document.querySelectorAll('[data-collapse-target]');
-buttons.forEach(function (button, index) {
-button.addEventListener("click", function (event) {
-event.preventDefault(); // Empêche le comportement par défaut du bouton
-const selectButton = document.querySelectorAll('button[data-collapse-target]').forEach(function (selectButton) {
-selectButton.classList.remove("bg-white", "text-brown");
-selectButton.classList.add("bg-pink", "text-white");
-});
+			buttons.forEach(function (button, index) {
+			button.addEventListener("click", function (event) {
+			event.preventDefault(); // Empêche le comportement par défaut du bouton
+			const selectButton = document.querySelectorAll('button[data-collapse-target]').forEach(function (selectButton) {
+			selectButton.classList.remove("bg-white", "text-brown");
+			selectButton.classList.add("bg-pink", "text-white");
+			});
 
-const targetId = this.getAttribute('data-collapse-target');
-const target = document.querySelector (`[data-collapse="${targetId}"]`);
+			const targetId = this.getAttribute('data-collapse-target');
+			const target = document.querySelector (`[data-collapse="${targetId}"]`);
 
-// Fermer tous les autres accordéons
-document.querySelectorAll('[data-collapse]').forEach(item => {
-if (item.getAttribute('data-collapse') !== targetId) {
-item.classList.add('h-0');
-item.classList.remove('h-auto');
-}
-});
+			// Fermer tous les autres accordéons
+			document.querySelectorAll('[data-collapse]').forEach(item => {
+			if (item.getAttribute('data-collapse') !== targetId) {
+			item.classList.add('h-0');
+			item.classList.remove('h-auto');
+			}
+		});
 
-// Ouvrir ou fermer l'accordéon cible
-target.classList.toggle('h-auto');
-target.classList.toggle('h-0');
-});
-});
+		// Ouvrir ou fermer l'accordéon cible
+		target.classList.toggle('h-auto');
+		target.classList.toggle('h-0');
+		});
+	});
 	</script>
 {% endblock %}

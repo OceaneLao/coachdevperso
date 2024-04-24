@@ -4,12 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Appointment;
 use App\Entity\User;
-use App\Repository\AppointmentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class AppointmentController extends AbstractController
 {
@@ -27,14 +25,17 @@ class AppointmentController extends AbstractController
         ]);
     }
 
+    // Symfony reconnaît les accolades {id} comme une variable => $id
     #[Route('appointment/submit/{id}', name: 'app_appointment_submit', methods: ['POST', 'GET'])]
-    public function submitAppointment($id): Response
+    public function submitAppointment(
+        EntityManagerInterface $entityManagerInterface,
+        $id
+    ): Response
     {
-        dd($id);
         // Récupérer l'id de l'utilisateur actuellement authentifié
         $user = $this->getUser();
 
-        //Vérifier si un utilisateur est authentifié
+        // Vérifier si un utilisateur est authentifié
         if (!$user instanceof User) {
             // Gérer le cas où un utilisateur n'est pas authentifié
             return $this->redirectToRoute('app_login');
@@ -42,8 +43,23 @@ class AppointmentController extends AbstractController
         }
 
         // Récupérer l'appointment
-        // attribuer l'appointment au user
-        // rendre l'appointment indisponible
+        $appointmentId = $id;
+        $appointmentRepository = $entityManagerInterface->getRepository(Appointment::class);
+        $appointment = $appointmentRepository->find($appointmentId);
+
+        // Attribuer l'appointment au user
+        $appointment->setUser($user);
+        
+        // Rendre l'appointment indisponible
+        $isAvailable = $appointment->isAvailable();
+        if ($appointment){
+            $isAvailable = false;
+        }
+        $appointment->setAvailable($isAvailable);
+        
+        // Mettre à jour dans la BDD
+        $entityManagerInterface->persist($appointment);
+        $entityManagerInterface->flush();
 
         return $this->render('appointment/submit.html.twig');
     }
