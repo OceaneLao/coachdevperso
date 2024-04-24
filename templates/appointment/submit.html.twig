@@ -5,7 +5,10 @@
 {% endblock %}
 
 {% block body %}
+
     <p>
-        {{ app.user.email }}
+    {% set appointmentDate = appointment.startedAt|date('m/d/Y') %}
+    {% set appointmentSchedule = appointment.startedAt|date('H:i') %}
+        Félicitations {{ app.user.lastname }}, votre RDV pour le {{ appointmentDate }} à {{ appointmentSchedule }} a été réservé !
     </p>
 {% endblock %}

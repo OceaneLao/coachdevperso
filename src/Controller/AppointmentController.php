@@ -18,7 +18,6 @@ class AppointmentController extends AbstractController
         // Récupérer toutes les données dans le Repository
         $appointmentRepository = $entityManagerInterface->getRepository(Appointment::class);
         $appointments = $appointmentRepository->findAll();
-        // dd($appointments);
 
         return $this->render('appointment/index.html.twig', [
             'appointments' => $appointments,
@@ -31,7 +30,7 @@ class AppointmentController extends AbstractController
         EntityManagerInterface $entityManagerInterface,
         $id
     ): Response
-    {
+    {   
         // Récupérer l'id de l'utilisateur actuellement authentifié
         $user = $this->getUser();
 
@@ -52,15 +51,16 @@ class AppointmentController extends AbstractController
         
         // Rendre l'appointment indisponible
         $isAvailable = $appointment->isAvailable();
-        if ($appointment){
-            $isAvailable = false;
+        if ($isAvailable){
+            $appointment->setAvailable(false);
         }
-        $appointment->setAvailable($isAvailable);
-        
+    
         // Mettre à jour dans la BDD
         $entityManagerInterface->persist($appointment);
         $entityManagerInterface->flush();
 
-        return $this->render('appointment/submit.html.twig');
+        return $this->render('appointment/submit.html.twig',[
+            'appointment' => $appointment,
+        ]);
     }
 }
