@@ -15,6 +15,17 @@
 
 		<div class="flex flex-row">
 			<div class="basis-1/2">
+				<h2>Vos rendez-vous</h2>
+				{% for appointment in appointments %}
+					{% set appointmentDate = appointment.startedAt|date('m/d/Y') %}
+					{% set appointmentSchedule = appointment.startedAt|date('H:i') %}
+
+					<p>
+						{{ appointmentDate }}
+						{{ appointmentSchedule }}
+					</p>
+				{% endfor %}
+
 				<h2>
 					No appointment scheduled
 				</h2>
