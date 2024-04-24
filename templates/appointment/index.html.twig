@@ -33,7 +33,9 @@
 		{# Boucle sur les dates uniques #}
 		{% for currentDate in uniqueDates %}
 			{# Ouvrir une div pour chaque date unique #}
-			<button name="selected_date" data-collapse-target="collapse_{{ loop.index }}" class="bg-white text-center text-brown rounded-md border py-2 px-48 mb-2">
+			<button 
+			name="selected_date" 
+			data-collapse-target="collapse_{{ loop.index }}" class="bg-white text-center text-brown rounded-md border py-2 px-48 mb-2">
 				{{ currentDate }}
 			</button>
 

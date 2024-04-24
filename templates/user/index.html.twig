@@ -15,34 +15,70 @@
 
 		<div class="flex flex-row">
 			<div class="basis-1/2">
-				<h2>Vos rendez-vous</h2>
+				<h2 class="text-2xl text-blue font-bold mb-2">Your appointment</h2>
+				{% if appointments|length > 0  %}
+				
 				{% for appointment in appointments %}
 					{% set appointmentDate = appointment.startedAt|date('m/d/Y') %}
 					{% set appointmentSchedule = appointment.startedAt|date('H:i') %}
+					{% set appointmentIsAvailable = appointment.isAvailable %}
 
-					<p>
-						{{ appointmentDate }}
-						{{ appointmentSchedule }}
-					</p>
+					{# Si l'utilisateur a réservé un ou plusieurs RDV #}
+					{% if not appointmentIsAvailable %}
+						<div class="flex flex-col justify-center items-center bg-white p-5 m-5 border border-brown rounded-lg">
+							<div>
+							<p>
+								Date : {{ appointmentDate }}
+							</p>
+							<p>
+								Schedule : {{ appointmentSchedule }}
+							</p>
+							</div>
+						
+						<form class="flex flex-col">
+							<button class="bg-blue border border-blue rounded-full text-white px-20 py-3 m-2">
+								Video call
+							</button>
+							<button class="bg-blue border border-blue rounded-full text-white px-20 py-3 m-2">
+								Edit
+							</button>
+
+							<button class="bg-white border border-blue rounded-full text-blue px-20 py-3 m-2">
+								Delete
+							</button>
+						</form>
+						</div>
+					{% endif %}
 				{% endfor %}
-
-				<h2>
-					No appointment scheduled
-				</h2>
-				<button>
-					Book an appointment
+			{% else %}
+				{# L'utilisateur n'a aucun de RDV #}
+				<div class="flex flex-col justify-center items-center bg-white p-10 m-5 border border-brown rounded-lg">
+					<h2 class="text-2xl text-blue font-bold mb-2">
+						No appointment scheduled
+					</h2>
+					<button class="bg-blue border-blue rounded-full text-white mt-5 px-10 py-3">
+					<a href="{{ path('app_appointment')}}">
+						Book an appointment
+					</a>
 				</button>
+				</div>
+			{% endif %}
 			</div>
 
 			<div class="basis-1/2">
-				<h2>
-					Final payments
+				<h2 class="text-2xl text-blue font-bold mb-2">
+					Final payment
 				</h2>
-				<p>
-					No tickets
-				</p>
+				<div class="flex flex-col justify-center items-center bg-white p-10 m-5 border border-brown rounded-lg">
+					<p>
+						No tickets.
+					</p>
+				</button>
+				</div>
 
-				<a href="{{ path('app_logout') }}">Logout</a>
+				<p class="text-right">
+					<a href="{{ path('app_logout') }}">Logout</a>
+				</p>
 			</div>
 		</div>
 	</div>
