@@ -16,11 +16,8 @@ class UserController extends AbstractController
     ): Response
     {
         $user = $this->getUser();
-        // dd($user);
-
         $appointmentRepository = $entityManagerInterface->getRepository(Appointment::class);
         $appointments = $appointmentRepository->findBy(['user'=>$user->getId()]);
-        // dd($appointments);
 
         return $this->render('user/index.html.twig', [
             'user'=> $user,

@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Controller\Admin\AppointmentCrudController;
 use App\Entity\Appointment;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -62,5 +64,37 @@ class AppointmentController extends AbstractController
         return $this->render('appointment/submit.html.twig',[
             'appointment' => $appointment,
         ]);
+    }
+
+     // Modifier un RDV
+     #[Route('appointment/edit', name: 'app_appointment_edit', methods: ['GET'])]
+     public function editAppointment(
+        Request $request,
+        EntityManagerInterface $entityManagerInterface
+     ) : Response
+     {
+        // Récupérer l'appointment lié à l'utilisateur
+        $user = $this->getUser();
+        $appointmentRepository = $entityManagerInterface->getRepository(Appointment::class);
+        $editAppointment = $appointmentRepository->findOneBy(['user'=>$user->getId()]);
+        // dd($editAppointment);
+
+        // Attribuer un nouveau RDV à l'utilisateur
+        
+        // Rendre l'appointment disponible
+
+        // Mettre à jour la BDD
+        
+         return $this->render('appointment/edit.html.twig',[
+             'appointment' => $editAppointment,
+         ]);
+     }
+     
+    // Annuler un RDV
+    #[Route('appointment/cancel', name: 'app_appointment_cancel', methods: ['GET'])]
+    public function cancelAppointment(
+    ) : Response
+    {
+        return $this->render('appointment/edit.html.twig');
     }
 }
