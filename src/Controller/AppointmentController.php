@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Controller\Admin\AppointmentCrudController;
 use App\Entity\Appointment;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -67,23 +66,27 @@ class AppointmentController extends AbstractController
     }
 
      // Modifier un RDV
-     #[Route('appointment/edit', name: 'app_appointment_edit', methods: ['GET'])]
+     #[Route('appointment/edit', name: 'app_appointment_edit', methods: ['GET','POST'])]
      public function editAppointment(
-        Request $request,
-        EntityManagerInterface $entityManagerInterface
+        EntityManagerInterface $entityManagerInterface,
      ) : Response
      {
         // Récupérer l'appointment lié à l'utilisateur
         $user = $this->getUser();
         $appointmentRepository = $entityManagerInterface->getRepository(Appointment::class);
         $editAppointment = $appointmentRepository->findOneBy(['user'=>$user->getId()]);
-        // dd($editAppointment);
-
+        
         // Attribuer un nouveau RDV à l'utilisateur
         
-        // Rendre l'appointment disponible
 
+        // Rendre l'appointment disponible
+        if ($editAppointment->isAvailable()){
+            $editAppointment->setAvailaible(true);
+        }
+        dd($editAppointment);
         // Mettre à jour la BDD
+        $entityManagerInterface->persist($editAppointment);
+        $entityManagerInterface->flush();
         
          return $this->render('appointment/edit.html.twig',[
              'appointment' => $editAppointment,
