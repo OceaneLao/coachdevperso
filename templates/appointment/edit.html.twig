@@ -18,13 +18,18 @@
             Schedule : {{ appointmentSchedule }}
         </p>
 
-        <form action="">
+        {# <form action="">
             <button class="bg-blue border-blue rounded-full text-white mt-5 px-10 py-3">
                 <a href="{{ path('app_appointment') }}">
                     Confirm
                 </a>
             </button>
-        </form>
-        
+        </form> #}
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit">
+            Edit
+        </button>
+        {{ form_end(form) }}        
     </div>
 {% endblock %}

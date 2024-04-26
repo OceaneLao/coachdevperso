@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Appointment;
+use App\Entity\Review;
 use App\Entity\User;
+use App\Form\AppointmentFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,8 +32,7 @@ class AppointmentController extends AbstractController
     public function submitAppointment(
         EntityManagerInterface $entityManagerInterface,
         $id
-    ): Response
-    {   
+    ): Response {
         // Récupérer l'id de l'utilisateur actuellement authentifié
         $user = $this->getUser();
 
@@ -49,55 +50,77 @@ class AppointmentController extends AbstractController
 
         // Attribuer l'appointment au user
         $appointment->setUser($user);
-        
+
         // Rendre l'appointment indisponible
         $isAvailable = $appointment->isAvailable();
-        if ($isAvailable){
+        if ($isAvailable) {
             $appointment->setAvailable(false);
         }
-    
+
         // Mettre à jour dans la BDD
         $entityManagerInterface->persist($appointment);
         $entityManagerInterface->flush();
 
-        return $this->render('appointment/submit.html.twig',[
+        return $this->render('appointment/submit.html.twig', [
             'appointment' => $appointment,
         ]);
     }
 
-     // Modifier un RDV
-     #[Route('appointment/edit', name: 'app_appointment_edit', methods: ['GET','POST'])]
-     public function editAppointment(
+    // Modifier un RDV
+    #[Route('appointment/edit/{id}', name: 'app_appointment_edit', methods: ['GET', 'POST'])]
+    public function editAppointment(
+        Request $request,
+        Appointment $appointment,
         EntityManagerInterface $entityManagerInterface,
-     ) : Response
-     {
-        // Récupérer l'appointment lié à l'utilisateur
-        $user = $this->getUser();
-        $appointmentRepository = $entityManagerInterface->getRepository(Appointment::class);
-        $editAppointment = $appointmentRepository->findOneBy(['user'=>$user->getId()]);
-        
-        // Attribuer un nouveau RDV à l'utilisateur
-        
+    ): Response {
 
-        // Rendre l'appointment disponible
-        if ($editAppointment->isAvailable()){
-            $editAppointment->setAvailaible(true);
-        }
-        dd($editAppointment);
-        // Mettre à jour la BDD
-        $entityManagerInterface->persist($editAppointment);
-        $entityManagerInterface->flush();
+        $form = $this->createForm(AppointmentFormType::class, $appointment);
+        $form->handleRequest($request);
         
-         return $this->render('appointment/edit.html.twig',[
-             'appointment' => $editAppointment,
-         ]);
-     }
-     
-    // Annuler un RDV
-    #[Route('appointment/cancel', name: 'app_appointment_cancel', methods: ['GET'])]
-    public function cancelAppointment(
-    ) : Response
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Rendre l'appointment disponible
+            $appointment->setAvailable(false);
+        
+            // Mettre à jour la BDD
+            $entityManagerInterface->persist($appointment);
+            $entityManagerInterface->flush();
+
+            return $this->redirectToRoute('app_user');
+        }
+
+        return $this->render('appointment/edit.html.twig', [
+            'appointment' => $appointment,
+            'form' => $form,
+        ]);
+    }
+
+    private function updateRelatedAppointmentsAvailability(Appointment $appointment, EntityManagerInterface $entityManager)
     {
-        return $this->render('appointment/edit.html.twig');
+        // Récupérer les rendez-vous associés à la même date et la même heure que $appointment
+        $relatedAppointments = $entityManager->getRepository(Appointment::class)->findBy([
+            'startedAt' => $appointment->getStartedAt(),
+            'endedAt' => $appointment->getEndedAt(),
+        ]);
+
+        // Mettre à jour la disponibilité de chaque rendez-vous associé
+        foreach ($relatedAppointments as $relatedAppointment) {
+            $relatedAppointment->setAvailable(true);
+        }
+
+        // Persistez les changements
+        $entityManager->flush();
+    }
+
+    // Annuler un RDV
+    #[Route('/appointment/{id}/cancel', name: 'app_appointment_cancel', methods: ['GET', 'POST'])]
+    public function cancelAppointment(Appointment $appointment, EntityManagerInterface $entityManager): Response
+    {
+        $appointment->setAvailable(true);
+        $entityManager->flush();
+
+        // Rediriger l'utilisateur vers une page de confirmation ou une autre page pertinente
+        return $this->redirectToRoute('app_user',[
+            'id' => $appointment->getId(),
+        ]);
     }
 }

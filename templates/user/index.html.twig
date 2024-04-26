@@ -22,6 +22,7 @@
 					{% set appointmentDate = appointment.startedAt|date('m/d/Y') %}
 					{% set appointmentSchedule = appointment.startedAt|date('H:i') %}
 					{% set appointmentIsAvailable = appointment.isAvailable %}
+					{% set appointmentId = appointment.id %}
 
 					{# Si l'utilisateur a réservé un ou plusieurs RDV #}
 					{% if not appointmentIsAvailable %}
@@ -35,17 +36,25 @@
 							</p>
 							</div>
 						
-						<form class="flex flex-col">
+						<div class="flex flex-col">
+						
 							<button class="bg-blue border border-blue rounded-full text-white px-20 py-3 m-2">
 								Video call
 							</button>
-							<button class="bg-blue border border-blue rounded-full text-white px-20 py-3 m-2">
-								<a href=" {{ path('app_appointment_edit') }}">Edit</a>
-							</button>
-							<button class="bg-white border border-blue rounded-full text-blue px-20 py-3 m-2">
-								Delete
-							</button>
-						</form>
+
+							<form action="{{ path('app_appointment_edit', {'id': appointmentId }) }}"
+							method="post">
+								<button type="submit" class="bg-blue border border-blue rounded-full text-white px-20 py-3 m-2" onclick="Edit appointment ?">
+									Edit
+								</button>
+							</form>
+
+							<form action="{{ path('app_appointment_cancel', {'id': appointmentId }) }}" method="post">
+								<button type="submit" class="bg-white border border-blue rounded-full text-blue px-20 py-3 m-2" onclick="Cancel appointment ?">
+									Cancel
+								</button>
+							</form>
+						</div>
 						</div>
 					{% endif %}
 				{% endfor %}

@@ -47,6 +47,7 @@
 						{% for appointment in sortedAppointments %}
 							{% set appointmentDate = appointment.startedAt|date('m/d/Y') %}
 							{% if appointmentDate == currentDate %}
+							
 								<form action="{{ path('app_appointment_submit', {'id': appointment.id}) }}" method="post">
 									{% if appointment.isAvailable %}
 										<button name="selected_schedule" type="submit" onclick="confirm('?');" id="selectSchedule" class="bg-white border rounded-full px-5 py-2 text-brown">
@@ -54,6 +55,7 @@
 										</button>
 									{% endif %}
 								</form>
+								
 							{% endif %}
 						{% endfor %}
 					</div>
