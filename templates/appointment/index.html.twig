@@ -43,7 +43,7 @@
 			<div data-collapse="collapse_{{ loop.index }}" class="block h-0 flex flex-col items-center overflow-hidden transition-all duration-300 ease-in-out">
 				<div class="text-pink">
 					Select a schedule
-					<div class="absolute flex flex-row justify-center items-center mb-2 grid-cols-3 gap-4 mt-2">
+					<div class="relative flex flex-row justify-center items-center mb-2 grid-cols-3 gap-4 mt-2">
 						{% for appointment in sortedAppointments %}
 							{% set appointmentDate = appointment.startedAt|date('m/d/Y') %}
 							{% if appointmentDate == currentDate %}

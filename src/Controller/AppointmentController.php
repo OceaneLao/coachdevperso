@@ -85,7 +85,7 @@ class AppointmentController extends AbstractController
             $entityManagerInterface->persist($appointment);
             $entityManagerInterface->flush();
 
-            return $this->redirectToRoute('app_user');
+            return $this->redirectToRoute('app_appointment');
         }
 
         return $this->render('appointment/edit.html.twig', [
@@ -115,6 +115,7 @@ class AppointmentController extends AbstractController
     #[Route('/appointment/{id}/cancel', name: 'app_appointment_cancel', methods: ['GET', 'POST'])]
     public function cancelAppointment(Appointment $appointment, EntityManagerInterface $entityManager): Response
     {
+        $appointment->setUser(null);
         $appointment->setAvailable(true);
         $entityManager->flush();
 
