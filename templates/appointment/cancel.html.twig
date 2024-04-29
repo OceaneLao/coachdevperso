@@ -1,9 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Cancel appointment
+	Cancel appointment
 {% endblock %}
 
 {% block body %}
+<div class="container mx-auto w-9/12 flex flex-col justify-center pt-10 py-5">
+	<p>
+		Votre RDV a bien été annulé.
+	</p>
 
+	<button class="bg-blue border-blue rounded-full text-white mt-5 px-10 py-3">
+		<a href="{{ path('app_user')}}">
+			Mon compte
+		</a>
+	</button>
+</div>
 {% endblock %}

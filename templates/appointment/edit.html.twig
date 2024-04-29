@@ -1,35 +1,95 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Edit appointment
+	Edit
 {% endblock %}
 
 {% block body %}
-    {% set appointmentDate = appointment.startedAt|date('m/d/Y') %}
-    {% set appointmentSchedule = appointment.startedAt|date('H:i') %}
-    <div class="container mx-auto py-10 w-full text-center">
-        <h1 class="text-3xl text-blue font-bold mb-2">
-            Edit appointment
-        </h1>
-        <p>
-            Date : {{ appointmentDate }}
-        </p>
-        <p>
-            Schedule : {{ appointmentSchedule }}
-        </p>
+	<div class="container mx-auto py-10 w-full text-center">
+		<h1 class="text-3xl text-blue font-bold mb-2">
+			Edit your appointment
+		</h1>
+		<p class="text-pink mb-2">
+			Select a date
+		</p>
 
-        {# <form action="">
-            <button class="bg-blue border-blue rounded-full text-white mt-5 px-10 py-3">
-                <a href="{{ path('app_appointment') }}">
-                    Confirm
-                </a>
-            </button>
-        </form> #}
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button type="submit">
-            Edit
-        </button>
-        {{ form_end(form) }}        
-    </div>
+		{# Trier les rendez-vous par date croissante #}
+		{% set sortedAppointments = appointments|sort((a, b) => a.startedAt.timestamp - b.startedAt.timestamp) %}
+
+		{# Initialiser une liste de dates uniques #}
+		{% set uniqueDates = [] %}
+
+		{# Stocker les dates uniques dans la liste #}
+		{% for appointment in sortedAppointments %}
+			{% if appointment.isAvailable %}
+				{% set currentDate = appointment.startedAt|date('m/d/Y') %}
+				{% if currentDate not in uniqueDates %}
+					{# Combiner la liste actuelle 'uniquesDates' avec la nouvelle liste 'currentDate' #}
+					{% set uniqueDates = uniqueDates|merge([currentDate]) %}
+				{% endif %}
+			{% endif %}
+		{% endfor %}
+
+		{# Boucle sur les dates uniques #}
+		{% for currentDate in uniqueDates %}
+			{# Ouvrir une div pour chaque date unique #}
+			<button 
+			name="selected_date" 
+			data-collapse-target="collapse_{{ loop.index }}" class="bg-white text-center text-brown rounded-md border py-2 px-48 mb-2">
+				{{ currentDate }}
+			</button>
+
+			{# Afficher les horaires associés à cette date #}
+			<div data-collapse="collapse_{{ loop.index }}" class="block h-0 flex flex-col items-center overflow-hidden transition-all duration-300 ease-in-out">
+				<div class="text-pink">
+					Select a schedule
+					<div class="relative flex flex-row justify-center items-center mb-2 grid-cols-3 gap-4 mt-2">
+						{% for appointment in sortedAppointments %}
+							{% set appointmentDate = appointment.startedAt|date('m/d/Y') %}
+							{% if appointmentDate == currentDate %}
+								<form action="{{ path('app_appointment_edit', {
+									'id': appointment.id,
+									'oldAppointment': oldAppointment.id
+								}) }}" method="post">
+									{% if appointment.isAvailable %}
+										<button name="selected_schedule" type="submit" id="selectSchedule" onclick="confirm('Edit your appointment ?');"class="bg-white border rounded-full px-5 py-2 text-brown">
+											{{ appointment.startedAt|date('H:i') }}
+										</button>
+									{% endif %}
+								</form>
+							{% endif %}
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+
+	<script>
+		const buttons = document.querySelectorAll('[data-collapse-target]');
+			buttons.forEach(function (button, index) {
+			button.addEventListener("click", function (event) {
+			event.preventDefault(); // Empêche le comportement par défaut du bouton
+			const selectButton = document.querySelectorAll('button[data-collapse-target]').forEach(function (selectButton) {
+			selectButton.classList.remove("bg-white", "text-brown");
+			selectButton.classList.add("bg-pink", "text-white");
+			});
+
+			const targetId = this.getAttribute('data-collapse-target');
+			const target = document.querySelector (`[data-collapse="${targetId}"]`);
+
+			// Fermer tous les autres accordéons
+			document.querySelectorAll('[data-collapse]').forEach(item => {
+			if (item.getAttribute('data-collapse') !== targetId) {
+			item.classList.add('h-0');
+			item.classList.remove('h-auto');
+			}
+		});
+
+		// Ouvrir ou fermer l'accordéon cible
+		target.classList.toggle('h-auto');
+		target.classList.toggle('h-0');
+		});
+	});
+	</script>
 {% endblock %}
