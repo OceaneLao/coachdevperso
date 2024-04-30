@@ -30,6 +30,7 @@
 					{% for appointment in appointments %}
 						{% set appointmentDate = appointment.startedAt|date('m/d/Y') %}
 						{% set appointmentSchedule = appointment.startedAt|date('H:i') %}
+						{% set appointmentId = appointment.id %}
 						<div class="flex flex-row justity-center items-center w-full bg-white mt-5 p-5">
 							<div class="basis-1/2">
 								<p>
@@ -47,12 +48,9 @@
 								</p>
 							</div>
 
-							<div class="basis-1/2">
-								<form class="flex flex-col">
-									<button class="bg-blue border border-blue rounded-full text-white px-20 py-3 m-2">
-										<a href="">Edit</a>
-									</button>
-									<button class="bg-white border border-blue rounded-full text-blue px-20 py-3 m-2">
+							<div class="basis-2/2">
+								<form action="{{ path('app_admin_appointment_delete', {'id' : appointmentId }) }}" method="POST" class="flex flex-col" >
+									<button type="submit" class="bg-white border border-blue rounded-full text-blue px-20 py-3 m-2" onclick="confirm('Delete appointment ?');">
 										Delete
 									</button>
 								</form>

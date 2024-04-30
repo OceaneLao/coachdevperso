@@ -27,7 +27,8 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/appointment', name:'app_admin_appointment')]
+    // Ajouter des créneaux de RDV
+    #[Route('/admin/add-appointment', name:'app_admin_appointment')]
     public function addAppointment(
         Request $request,
         EntityManagerInterface $entityManagerInterface
@@ -46,8 +47,28 @@ class AdminController extends AbstractController
             $entityManagerInterface ->flush();
         }
 
-    return $this->render('admin/appointment.html.twig', [
+    return $this->render('admin/add-appointment.html.twig', [
         'appointmentForm' => $form,
+    ]);
+    }
+
+    // Supprimer des créneaux de RDV
+    #[Route('/admin/delete-appointment/{id}', name:'app_admin_appointment_delete', methods:['POST','GET'])]
+    public function deleteAppointment(
+        EntityManagerInterface $entityManagerInterface,
+        Appointment $appointment
+    ): Response
+    {
+        // Récupérer l'id de l'appointment
+        $appointmentId = $appointment->getId();
+        $appointmentRepository = $entityManagerInterface->getRepository(Appointment::class);
+        $appointment = $appointmentRepository->find($appointmentId);
+        
+        $entityManagerInterface ->remove($appointment);
+        $entityManagerInterface ->flush();
+
+    return $this->render('admin/delete-appointment.html.twig', [
+        'id' => $appointmentId
     ]);
     }
 }
