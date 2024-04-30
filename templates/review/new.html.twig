@@ -3,9 +3,11 @@
 {% block title %}New Review{% endblock %}
 
 {% block body %}
-    <h1>Create new Review</h1>
+<div class="container mx-auto w-9/12 flex flex-col justify-center pt-10 py-5">
+    <h1 class="text-3xl text-blue font-bold pb-5">Write a review</h1>
 
     {{ include('review/_form.html.twig') }}
 
     <a href="{{ path('app_review_index') }}">back to list</a>
+</div>
 {% endblock %}

@@ -67,13 +67,19 @@
 			buttons.forEach(function (button, index) {
 			button.addEventListener("click", function (event) {
 			event.preventDefault(); // Empêche le comportement par défaut du bouton
-			const selectButton = document.querySelectorAll('button[data-collapse-target]').forEach(function (selectButton) {
-			selectButton.classList.remove("bg-white", "text-brown");
-			selectButton.classList.add("bg-pink", "text-white");
+			let selectButton = document.querySelector('[data-collapse-target]')
+			buttons.forEach(function (selectButton) {
+				if(selectButton == button){
+				selectButton.classList.remove("bg-white", "text-brown");
+				selectButton.classList.add("bg-pink", "text-white");
+				}else{
+				selectButton.classList.remove("bg-pink", "text-white");
+				selectButton.classList.add("bg-white", "text-brown");
+				}
 			});
 
 			const targetId = this.getAttribute('data-collapse-target');
-			const target = document.querySelector (`[data-collapse="${targetId}"]`);
+			const target = document.querySelector(`[data-collapse="${targetId}"]`);
 
 			// Fermer tous les autres accordéons
 			document.querySelectorAll('[data-collapse]').forEach(item => {

@@ -27,33 +27,32 @@
 					{# Si l'utilisateur a réservé un ou plusieurs RDV #}
 					{% if not appointmentIsAvailable %}
 						<div class="flex flex-col justify-center items-center bg-white p-5 m-5 border border-brown rounded-lg">
-							<div>
 							<p>
 								Date : {{ appointmentDate }}
 							</p>
 							<p>
 								Schedule : {{ appointmentSchedule }}
 							</p>
-							</div>
 						
-						<div class="flex flex-col">
-						
-							<button class="bg-blue border border-blue rounded-full text-white px-20 py-3 m-2">
-								Video call
-							</button>
+							<a href="" >
+								<button class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">
+									Video call
+								</button>
+							</a>
 
 							{# <form action="{{ path('app_appointment_edit', {'id': appointmentId }) }}" method="post"> #}
-								<a  href={{ path('app_appointment_edit', {'id': appointmentId }) }} class="bg-blue border border-blue rounded-full text-white px-20 py-3 m-2">
-									Edit
+								<a href={{ path('app_appointment_edit', {'id': appointmentId }) }}>
+									<button class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">
+										Edit
+									</button>
 								</a>
 							{# </form> #}
 
 							<form action="{{ path('app_appointment_cancel', {'id': appointmentId }) }}" method="post">
-								<button type="submit" class="bg-white border border-blue rounded-full text-blue px-20 py-3 m-2" onclick="confirm('Cancel your appointment ?');">
+								<button type="submit" class="bg-white border border-blue rounded-full text-blue w-48 py-3 m-2" onclick="confirm('Cancel your appointment ?');">
 									Cancel
 								</button>
 							</form>
-						</div>
 						</div>
 					{% endif %}
 				{% endfor %}
