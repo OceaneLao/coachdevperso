@@ -43,12 +43,12 @@
 			<div data-collapse="collapse_{{ loop.index }}" class="block h-0 flex flex-col items-center overflow-hidden transition-all duration-300 ease-in-out">
 				<div class="text-pink">
 					Select a schedule
-					<div class="relative flex flex-row justify-center items-center mb-2 grid-cols-3 gap-4 mt-2">
+					<div class="relative flex flex-row justify-center items-center mb-2 grid grid-cols-3 gap-4 mt-2">
 						{% for appointment in sortedAppointments %}
 							{% set appointmentDate = appointment.startedAt|date('m/d/Y') %}
 							{% if appointmentDate == currentDate %}
+								{% if appointment.isAvailable %}
 								<form action="{{ path('app_appointment_submit', {'id': appointment.id}) }}" method="post">
-									{% if appointment.isAvailable %}
 										<button name="selected_schedule" type="submit" onclick="confirm('Confirm your appointment ?');" id="selectSchedule" class="bg-white border rounded-full px-5 py-2 text-brown">
 											{{ appointment.startedAt|date('H:i') }}
 										</button>

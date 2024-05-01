@@ -17,26 +17,17 @@ class AppointmentFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('createdAt', HiddenType::class, [
-                'required' => false,
-            ])
-            ->add('startedAt', null, [
-                'widget' => 'choice',
-                'required' => false,
-            ])
-            ->add('endedAt', HiddenType::class, [
-                'required' => false,
-            ])
-            ->add('status', HiddenType::class, [
-                'required' => false,
-            ])
-            ->add('isAvailable', null, [
-                'required' => false,
-            ])
-            ->add('user', HiddenType::class, [
-                'required' => false,
-            ])
-        ;
+        ->add('createdAt', null, [
+            'widget' => 'single_text',
+        ])
+        ->add('startedAt', null, [
+            'widget' => 'single_text',
+        ])
+        ->add('endedAt', null, [
+            'widget' => 'single_text',
+        ])
+        ->add('status')
+        ->add('isAvailable');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
