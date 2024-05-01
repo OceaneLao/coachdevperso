@@ -8,4 +8,4 @@ hello_route:
     controller: App\Controller\HomeController::index
 dashboard:
     path: /admin
-    controller: App\Controller\Admin\AdminDashboardController::index
+    controller: App\Controller\Admin::index
