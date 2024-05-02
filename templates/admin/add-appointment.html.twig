@@ -10,10 +10,22 @@
 				Add appointment
 			</h1>
 
+			{% for flashError in app.flashes('error') %}
+				<div class="text-red">{{ flashError }}</div>
+			{% endfor %}
+
+			{% for flashSuccess in app.flashes('success') %}
+				<div class="text-green">{{ flashSuccess }}</div>
+			{% endfor %}
+
 			{{ form_start(appointmentForm) }}
-            <button type="submit" class="btn bg-blue border-2 border-blue rounded-full text-white px-10 py-3">
+			<div class="flex flex-col">
+			{{ form_widget(appointmentForm.startedAt) }}
+			{{ form_widget(appointmentForm.endedAt) }}
+            <button type="submit" class="btn bg-blue border-2 border-blue rounded-full text-white px-10 py-3" onclick="confirm('Confirm ?')">
                 Confirm
             </button>
+			</div>
 			{{ form_end(appointmentForm) }}
 			
 		</div>
