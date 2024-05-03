@@ -21,13 +21,17 @@ class AppointmentFormType extends AbstractType
         ])
         
         ->add('startedAt', DateTimeType::class, [
-            'widget' => 'single_text',
-            'input' => 'datetime_immutable',
+            'placeholder' => [
+                'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
+                'hour' => 'Hour', 'minute' => 'Minute', 'second' => 'Second',
+            ],
         ])
 
         ->add('endedAt', DateTimeType::class, [
-            'widget' => 'single_text',
-            'input' => 'datetime_immutable',
+            'placeholder' => [
+                'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
+                'hour' => 'Hour', 'minute' => 'Minute', 'second' => 'Second',
+            ],
         ])
 
         ->add('status', null, [

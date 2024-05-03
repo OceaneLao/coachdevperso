@@ -21,28 +21,18 @@ class AppointmentRepository extends ServiceEntityRepository
         parent::__construct($registry, Appointment::class);
     }
 
-    //    /**
-    //     * @return Appointment[] Returns an array of Appointment objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('a.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Appointment
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function filterAppointmentByYearAndMonth(Appointment $appointment, $year, $month)
+    {
+        $qb =$this->createQueryBuilder('appointment');
+        if($appointment->getStartedAt()){
+            $qb
+            ->andWhere($qb->expr()->eq('year(appointment.startedAt)', ':year'))
+            ->andWhere($qb->expr()->eq('month(appointment.startedAt)', ':month'))
+            ->setParameter('year', $year)
+            ->setParameter('month', $month)
+            ->orderBy('appointment.startedAt', 'ASC')
+        ;
+        }
+            return $qb->getQuery()->getResult();
+    }
 }
