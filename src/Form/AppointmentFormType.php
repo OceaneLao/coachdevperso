@@ -25,6 +25,7 @@ class AppointmentFormType extends AbstractType
                 'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
                 'hour' => 'Hour', 'minute' => 'Minute', 'second' => 'Second',
             ],
+            'input' => 'datetime_immutable',
         ])
 
         ->add('endedAt', DateTimeType::class, [

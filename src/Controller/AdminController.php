@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use DateTimeImmutable;
 
 class AdminController extends AbstractController
 {
@@ -40,19 +41,20 @@ class AdminController extends AbstractController
         $appointmentRepository = $entityManagerInterface->getRepository(Appointment::class);
         $appointments = $appointmentRepository->findAll();
         $appointment = new Appointment();
-
+        
         // Date de création du RDV avec date et jour d'aujourd'hui
         $appointment->setCreatedAt(new \DateTimeImmutable('now'));
+        
         // Définir l'horaire sur une heure spécifique sans ajouter la date
         $startedAt = \DateTimeImmutable::createFromFormat('H:i', '09:00');
         $appointment->setStartedAt($startedAt);
         // Ajouter une heure à endedAt pour définir l'horaire de fin
         $endedAt = clone $startedAt->modify('+1 hour');
         $appointment->setEndedAt($endedAt);
-
+       
         $form = $this->createForm(AppointmentFormType::class,$appointment);
         $form->handleRequest($request);
-
+        
         // Filtrer les RDV par année et par mois
         $filterForm = $this->createForm(AppointmentFilterType::class, $appointment);
         $filterForm->handleRequest($request);
@@ -62,13 +64,15 @@ class AdminController extends AbstractController
             // Vérifier si un RDV avec le même horaire de début existe pour la même date
             $existAppointment = $entityManagerInterface->getRepository(Appointment::class)->findOneBy(['startedAt' => $appointment->getStartedAt()
             ]);
-
+            
             if($existAppointment){
+               $existAppointment->getStartedAt();
                 $this->addFlash('error', 'Un RDV avec cet horaire existe déjà pour cette date.');
             }else{
             $appointment->setStartedAt(
                 $form->get('startedAt')->getData()
             );
+            //dd($appointment);
             $entityManagerInterface ->persist($appointment);
             $entityManagerInterface ->flush();
 
@@ -77,12 +81,12 @@ class AdminController extends AbstractController
         }
 
         //Formulaire pour filtrer
+        $result = [];
         if($filterForm->isSubmitted() && $filterForm->isValid()){
             $startDate = $filterForm->get('startedAt')->getData();
             $year = $startDate->format('Y');
             $month = $startDate->format('m');
-            $result = [];
-            foreach ($appointments as $a) {
+                foreach ($appointments as $a) {
                 // Extraire l'année et le mois de chaque rendez-vous
                 $appointmentYear = $a->getStartedAt()->format('Y');
                 $appointmentMonth = $a->getStartedAt()->format('m');
