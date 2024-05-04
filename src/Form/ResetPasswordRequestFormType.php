@@ -20,6 +20,10 @@ class ResetPasswordRequestFormType extends AbstractType
                         'message' => 'Please enter your email',
                     ]),
                 ],
+                'label' => false,
+                'attr' => [ 
+                    'class' => 'border border-brown rounded-lg w-9/12 ps-3 py-2 my-3',
+                    'placeholder' => 'Entrez votre adresse e-mail'],                
             ])
         ;
     }
