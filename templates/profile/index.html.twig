@@ -33,12 +33,12 @@
 			</button>
 			{{form_end(form)}}
 
-{% for profile in profiles %}
-	<img src="{{ asset('uploads/profiles/' ~ profile.picture) }}" alt="Image du profil">
-			<p>
-				{{ profile.description }}
-			</p>
-{% endfor %}
+		{% for profile in profiles %}
+			<img src="{{ asset('uploads/profiles/' ~ profile.picture) }}" alt="Image du profil">
+				<p>
+					{{ profile.description }}
+				</p>
+		{% endfor %}
 			
 		</div>
 	</div>

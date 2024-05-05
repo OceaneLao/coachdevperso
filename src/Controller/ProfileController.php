@@ -20,11 +20,9 @@ class ProfileController extends AbstractController
         SluggerInterface $slugger
     ): Response
     {
-        $profileRepository = $entityManagerInterface->getRepository(Profile::class);
-        $profiles = $profileRepository->findAll();
-
         $user = $this->getUser();
-
+        $profileRepository = $entityManagerInterface->getRepository(Profile::class);
+        $profiles = $profileRepository->findBy(['user'=>$user->getId()]);
         //Vérifier si un profil existe déjà pour cet utilisateur
         $existingProfile = $entityManagerInterface->getRepository(Profile::class)->findOneBy(['user'=>$user]);
         if($existingProfile){
