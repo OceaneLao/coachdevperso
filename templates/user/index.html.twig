@@ -7,11 +7,21 @@
 
 {% block body %}
 	<div class="container mx-auto w-9/12 flex flex-col justify-center pt-10 py-5">
+	
 		<h1 class="text-3xl text-blue font-bold pb-5">
 			Bonjour
 			{{ app.user.firstName }}
 			{{ app.user.lastName }}
 		</h1>
+
+		{% for profile in profiles %}
+		<div class="flex flex-row">
+		<img class="w-48" src="{{ asset('uploads/profiles/' ~ profile.picture) }}" alt="Image du profil">
+		<p>
+			{{ profile.description }}
+		</p>
+		</div>
+		{% endfor %}
 
 		<div class="flex flex-row">
 			<div class="basis-1/2">

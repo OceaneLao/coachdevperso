@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Appointment;
+use App\Entity\Profile;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,10 +19,13 @@ class UserController extends AbstractController
         $user = $this->getUser();
         $appointmentRepository = $entityManagerInterface->getRepository(Appointment::class);
         $appointments = $appointmentRepository->findBy(['user'=>$user->getId()]);
+        $profileRepository = $entityManagerInterface->getRepository(Profile::class);
+        $profiles = $profileRepository->findBy(['user'=>$user->getId()]);
 
         return $this->render('user/index.html.twig', [
             'user'=> $user,
             'appointments'=> $appointments,
+            'profiles' => $profiles,
         ]);
     }
 
