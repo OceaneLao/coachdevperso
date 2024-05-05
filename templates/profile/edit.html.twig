@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifiez votre profil{% endblock %}
+
+{% block body %}
+<div class="container mx-auto py-10">
+	<div class="flex flex-col justify-center items-center">
+        <h1 class="text-3xl text-blue font-bold pb-5">
+			Modifiez votre profil
+		</h1>
+
+		{{ form_start(form, 
+			{'attr' : 
+				{'class': 'w-9/12 text-center'}}
+		)}}
+			{{ form_row(form.picture) }}
+			{{ form_row(form.description) }}
+			<button type="submit" class="bg-blue border border-blue rounded-full text-white w-48 py-3 mt-5">
+				Enregistrer
+			</button>
+		{{form_end(form)}}
+		<img class="w-96" src="{{ profile.picture }}" alt="">
+    </div> 
+</div>
+{% endblock %}

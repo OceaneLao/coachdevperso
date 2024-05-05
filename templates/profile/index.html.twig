@@ -1,16 +1,45 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit your profile{% endblock %}
+{% block title %}Créez votre profil
+{% endblock %}
 
 {% block body %}
-<div class="container mx-auto py-10">
-	<div class="flex flex-row justify-center items-center">
-        <h1 class="text-3xl text-blue font-bold pb-5">
-			Editez votre profil
-		</h1>
-    
-        
+	<div class="container mx-auto py-10">
+		<div class="flex flex-col justify-center items-center">
+			<h1 class="text-3xl text-blue font-bold pb-5">
+				Créer votre profil
+			</h1>
 
-    </div>
-</div>
+			{% for flashError in app.flashes ('error') %}
+				<div class='text-red'>
+					{{ flashError }}
+				</div>
+			{% endfor %}
+
+			{% for flashSuccess in app.flashes ('success') %}
+				<div class='text-green'>
+					{{ flashSuccess }}
+				</div>
+			{% endfor %}
+
+			{{ form_start(form, 
+			{'attr' : 
+				{'class': 'w-9/12 text-center'}}
+			)}}
+			{{ form_row(form.picture) }}
+			{{ form_row(form.description) }}
+			<button type="submit" class="bg-blue border border-blue rounded-full text-white w-48 py-3 mt-5">
+				Enregistrer
+			</button>
+			{{form_end(form)}}
+
+{% for profile in profiles %}
+	<img src="{{ asset('uploads/profiles/' ~ profile.picture) }}" alt="Image du profil">
+			<p>
+				{{ profile.description }}
+			</p>
+{% endfor %}
+			
+		</div>
+	</div>
 {% endblock %}

@@ -3,13 +3,12 @@
 namespace App\Form;
 
 use App\Entity\Profile;
-use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Mime\Part\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class ProfileType extends AbstractType
 {
@@ -17,17 +16,28 @@ class ProfileType extends AbstractType
     {
         $builder
             ->add('picture', FileType::class, [
-                'label' => 'Photo',
                 'mapped' => false,
                 'required' => false,
-                // 'containts' => [
-                //     new File()
-                //     ],
+                'label' => 'Choissisez une image de profil ',
+                'attr' => [
+                    'class' => 'mb-5',
+                ],
+                'constraints' => [
+                    new File([
+                        'maxSize' => "1024k",
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png'
+                        ],
+                        'mimeTypesMessage' => "Entrez un format d'image valide : JPG ou PNG",
+                    ])
+                    ],
              ])
-            ->add('description')
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
+            ->add('description', TextareaType::class, [
+                'label' => false,
+                'attr' => [ 
+                    'class' => 'border border-brown rounded-lg w-9/12 ps-3 pt-2 pb-36',
+                    'placeholder' => 'Ajoutez votre description'],  
             ])
         ;
     }

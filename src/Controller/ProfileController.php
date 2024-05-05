@@ -17,30 +17,63 @@ class ProfileController extends AbstractController
     public function new(
         Request $request,
         EntityManagerInterface $entityManagerInterface,
-        SluggerInterface $slugger,
+        SluggerInterface $slugger
     ): Response
     {
-        $profile = new Profile();
-        $form = $this->createForm(ProfileType::class, $profile);
-        $form->handleRequest($request);
+        $profileRepository = $entityManagerInterface->getRepository(Profile::class);
+        $profiles = $profileRepository->findAll();
 
-            if($form->isSubmitted() && $form->isValid()) {
-                $image = $form->get('picture')->getData();
-                if($image){
-                    $originalName = pathinfo(
-                        $image->getClientOriginalName(), PATHINFO_FILENAME
-                    );
-                    $nameSlugged = $slugger->slug($originalName);
-                    $fileName = $nameSlugged . '-' . uniqid() . '.' . $image->guessExtension();
-                    dd($fileName);
-            }
-        $entityManagerInterface->persist($profile);
-        $entityManagerInterface->flush();
-        
-            return $this->render('profile/index.html.twig', [
-            'profile' => $profile,
-            'form' => $form,
-            ]);
+        $user = $this->getUser();
+
+        //Vérifier si un profil existe déjà pour cet utilisateur
+        $existingProfile = $entityManagerInterface->getRepository(Profile::class)->findOneBy(['user'=>$user]);
+        if($existingProfile){
+            $this->addFlash('error', 'Un profil existe déjà pour votre compte.');
         }
+
+        $profile = new Profile();
+        $profile->setUser($user);
+       
+    $form = $this->createForm(ProfileType::class, $profile);
+    $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('picture')->getData();
+            if($image){
+                $originalName = pathinfo(
+                $image->getClientOriginalName(), PATHINFO_FILENAME
+                );
+                $nameSlugged = $slugger->slug($originalName);
+                $fileName = $nameSlugged . '-' . uniqid() . '.' . $image->guessExtension();
+                //dd($fileName);
+                // Cheminement de l'image
+                try {
+                    $image->move(
+                        $this->getParameter('profile_directory'),
+                        $fileName
+                    );
+                }
+                catch(\Throwable $th){
+                    throw $th;
+                }
+                $profile->setPicture($fileName); 
+                // dd($profile);
+            }
+            // Récupérer la description
+            $description = $form->get('description')->getData();
+            $profile->setDescription($description);
+
+            // Enregistrer le profil
+            $entityManagerInterface->persist($profile);
+            $entityManagerInterface->flush();
+
+            $this->addFlash('success', 'Votre profil a été créé avec succès !');
+
+            return $this->redirectToRoute('app_profile');
+        }
+        return $this->render('profile/index.html.twig', [
+            'profiles' => $profiles,
+            'form' => $form,
+        ]);
     }
 }
