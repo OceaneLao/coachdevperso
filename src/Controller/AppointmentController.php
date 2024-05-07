@@ -78,14 +78,13 @@ class AppointmentController extends AbstractController
         $appointments = $appointmentRepository->findBy(array("isAvailable"=>true));
 
         if ($request->getMethod() === "GET"){
-            // dd($appointment);
             return $this->render('appointment/edit.html.twig', [
                 'appointments' => $appointments,
                 'oldAppointment' => $appointment
             ]);
         }
 
-        //récupérrer l'ancien appointmnt et l'annuler 
+        //Récupérer l'ancien appointment et l'annuler 
         $oldAppointmentId = (int)$request->query->get('oldAppointment');
         $oldAppointment = $appointmentRepository->find($oldAppointmentId);
         $oldAppointment->setUser(null);
@@ -95,12 +94,9 @@ class AppointmentController extends AbstractController
         $user = $this->getUser();
         $appointment->setUser($user);
         $appointment->setAvailable(false);
-        // dd($appointment);
 
         // Mettre à jour dans la BDD
         $entityManagerInterface->flush();
-        
-        // dd($appointment);
 
         return $this->redirectToRoute('app_user');
     }

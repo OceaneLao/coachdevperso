@@ -23,7 +23,7 @@
 		</div>
 		{% endfor %}
 
-		<div class="flex flex-row">
+		<div class="flex flex-row gap gap-4">
 			<div class="basis-1/2">
 				<h2 class="text-2xl text-blue font-bold mb-2">Vos rendez-vous</h2>
 				{% if appointments|length > 0  %}
@@ -36,31 +36,31 @@
 
 					{# Si l'utilisateur a réservé un ou plusieurs RDV #}
 					{% if not appointmentIsAvailable %}
-						<div class="flex flex-col justify-center items-center bg-white p-5 m-5 border border-brown rounded-lg">
+						<div class="flex flex-col justify-center items-center bg-white p-5 border border-brown rounded-lg">
 							<p>
 								Date : {{ appointmentDate }}
 							</p>
 							<p>
-								Schedule : {{ appointmentSchedule }}
+								Horaire : {{ appointmentSchedule }}
 							</p>
 						
 							<a href="" >
 								<button class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">
-									Video call
+									Appel vidéo
 								</button>
 							</a>
 
 							{# <form action="{{ path('app_appointment_edit', {'id': appointmentId }) }}" method="post"> #}
 								<a href={{ path('app_appointment_edit', {'id': appointmentId }) }}>
 									<button class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">
-										Edit
+										Modifier
 									</button>
 								</a>
 							{# </form> #}
 
 							<form action="{{ path('app_appointment_cancel', {'id': appointmentId }) }}" method="post">
 								<button type="submit" class="bg-white border border-blue rounded-full text-blue w-48 py-3 m-2" onclick="confirm('Cancel your appointment ?');">
-									Cancel
+									Annuler
 								</button>
 							</form>
 						</div>
@@ -68,7 +68,7 @@
 				{% endfor %}
 			{% else %}
 				{# L'utilisateur n'a aucun de RDV #}
-				<div class="flex flex-col justify-center items-center bg-white p-10 m-5 border border-brown rounded-lg">
+				<div class="flex flex-col justify-center items-center bg-white p-10 border border-brown rounded-lg">
 					<h2 class="text-2xl text-blue font-bold mb-2">
 						Pas de rendez-vous programmé.
 					</h2>
@@ -85,7 +85,7 @@
 				<h2 class="text-2xl text-blue font-bold mb-2">
 					Vos paiements
 				</h2>
-				<div class="flex flex-col justify-center items-center bg-white p-10 m-5 border border-brown rounded-lg">
+				<div class="flex flex-col justify-center items-center bg-white p-10 border border-brown rounded-lg">
 					<p>
 						Pas de tickets.
 					</p>

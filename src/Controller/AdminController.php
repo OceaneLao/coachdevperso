@@ -72,7 +72,7 @@ class AdminController extends AbstractController
             $appointment->setStartedAt(
                 $form->get('startedAt')->getData()
             );
-            //dd($appointment);
+           
             $entityManagerInterface ->persist($appointment);
             $entityManagerInterface ->flush();
 
