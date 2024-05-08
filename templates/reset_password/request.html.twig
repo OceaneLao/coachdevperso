@@ -3,17 +3,18 @@
 {% block title %}Mot de passe oublié ?{% endblock %}
 
 {% block body %}
-<div class="container mx-auto">
+<div class="container m-auto">
     <div class="flex flex-col justify-center items-center text-center">
     {% for flash_error in app.flashes('reset_password_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
+
    <h1 class="text-3xl text-blue font-bold pb-5">
 		Mot de passe oublié ?
 	</h1>
 
     {{ form_start(requestForm) }}
-        <p>
+        <p class="text-brown">
             Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe. 
         </p>
     {{ form_row(requestForm.email) }}
