@@ -171,6 +171,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+      /**
+     * Set the verified status of the user.
+     */
+    public function setVerified(bool $verified): self
+    {
+        $this->isVerified = $verified;
+
+        return $this;
+    }
+
+    /**
+     * Check if the user is verified.
+     */
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
     /**
      * @return Collection<int, Appointment>
      */

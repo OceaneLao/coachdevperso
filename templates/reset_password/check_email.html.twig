@@ -3,10 +3,15 @@
 {% block title %}Lien de réinitialisation du mot de passe{% endblock %}
 
 {% block body %}
-<div class="container mx-auto text-center text-brown">
-    <p>
-            Un lien vient de vous être envoyé pour réinitialiser votre mot de passe. Ce lien expérirera dans une une heure. {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
-    </p>
-    <p>Si vous ne recevez pas votre demande, consultez les spams ou réessayez d'envoyer votre demande <a href="{{ path('app_forgot_password_request') }}">ici</a>.</p>
+<div class="container m-auto justify-center items-center text-center">
+    <h1 class="text-3xl text-blue font-bold pb-5">
+        Lien de réinitialisation du mot de passe
+    </h1>
+    <div class="text-brown">
+        <p>
+            Un lien vient de vous être envoyé pour réinitialiser votre mot de passe. Ce lien expérirera dans une une heure.
+        </p>
+        <p>Si vous ne recevez pas votre demande, consultez les spams ou réessayez d'envoyer votre demande <a href="{{ path('app_forgot_password_request') }}" class="no-underline hover:underline">ici</a>.</p>
+    </div>
 </div>
 {% endblock %}

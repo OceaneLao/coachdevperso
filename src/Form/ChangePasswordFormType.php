@@ -30,28 +30,31 @@ class ChangePasswordFormType extends AbstractType
                 'first_options' => [
                     'constraints' => [
                         new NotBlank([
-                            'message' => 'Please enter a password',
+                            'message' => 'Entrez votre nouveau mot de passe',
                         ]),
                         new Length([
-                            'min' => 12,
-                            'minMessage' => 'Your password should be at least {{ limit }} characters',
-                            // max length allowed by Symfony for security reasons
+                            'min' => 8,
+                            'minMessage' => "Votre mot de passe doit au moins comporter {{ limit }} caractères.",
                             'max' => 4096,
                         ]),
-                        new PasswordStrength(),
-                        new NotCompromisedPassword(),
+                        new PasswordStrength([
+                            'message' => "Veuillez entrez un mot de passe plus robuste.",
+                            'groups' => 'ResetPassword',
+                        ]),
+                        new NotCompromisedPassword([
+                            'message' => "Ce mot de passe a été compromis, veuillez en choisir un autre.",
+                            'groups' => 'ResetPassword',
+                        ]),
                     ],
                     
                 ],
                 'second_options' => [ 
                         'attr' => [ 
                             'class' => 'border border-brown rounded-lg w-full ps-3 py-2 my-3',
-                            'placeholder' => 'Répéter votre mot de passe',
+                            'placeholder' => 'Confirmez votre nouveau mot de passe',
                             ]
                         ],
-                'invalid_message' => 'The password fields must match.',
-                // Instead of being set onto the object directly,
-                // this is read and encoded in the controller
+                'invalid_message' => 'Les mots de passe doivent être identiques.',
                 'mapped' => false,
             ])
         ;

@@ -1,18 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Réinitialiser votre mot de passe{% endblock %}
+{% block title %}Réinitialisation du mot de passe{% endblock %}
 
 {% block body %}
 <div class="container m-auto">
-		<div class="flex flex-col justify-center items-center text-center">
+		<div class="flex flex-col justify-center items-center">
 
     <h1 class="text-3xl text-blue font-bold pb-5">
 		Réinitialisez votre mot de passe
 	</h1>
 
-    {{ form_start(resetForm) }}
-        {{ form_row(resetForm.plainPassword) }}
-        <button class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">Envoyer</button>
+    {{ form_start(resetForm, {
+      'attr' : {
+        'class' : 'w-96 text-center',
+      }
+    }) }}
+    <div class = 'text-red'>
+      {{ form_errors(resetForm.plainPassword.first) }}
+    </div>
+    {{ form_widget(resetForm.plainPassword.first) }}
+    {{ form_widget(resetForm.plainPassword.second) }}
+      <button class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">Envoyer</button>
     {{ form_end(resetForm) }}
 </div>
 </div>

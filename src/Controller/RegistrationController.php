@@ -38,8 +38,13 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            // Attribuer le rôle User pour les nouveaux utilisateurs
+            $user->setRoles(['ROLE_USER']);
+
             $entityManager->persist($user);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Veuillez consulter votre boîte e-mail pour confirmer votre inscription.');
 
             // Générer une adresse URL dans l'envoi des e-mail pour confirmer l'inscription
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
@@ -49,8 +54,6 @@ class RegistrationController extends AbstractController
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
-
-            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('registration/register.html.twig', [

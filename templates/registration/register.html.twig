@@ -17,6 +17,9 @@
 
 			<h2 class="text-3xl text-blue font-bold pb-5">S'inscrire</h2>
 
+            {% for flash_message in app.flashes('success') %}
+    			<div class="alert alert-success text-green text-center">{{ flash_message }}</div>
+			{% endfor %}
 			{{ form_start(registrationForm, {
                 'attr': {
                     'class': 'text-center',
