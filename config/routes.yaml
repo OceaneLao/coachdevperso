@@ -9,3 +9,6 @@ hello_route:
 dashboard:
     path: /admin
     controller: App\Controller\Admin::index
+error_access_admin:
+    path: /error-access-admin
+    controller: App\Controller\AccessDeniedController::accessDenied
