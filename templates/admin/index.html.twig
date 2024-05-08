@@ -7,33 +7,39 @@
 	<div class="container mx-auto py-10">
 		<div class="flex flex-col justify-center items-center">
 			<h1 class="text-3xl text-blue font-bold pb-5">
-				Hello Admin !
+				Bonjour May-Dia
 			</h1>
 
 			<div class="flex flex-row justify-center w-full gap-4">
 				<div class="flex flex-col justify-center items-center">
 					<button class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">
-                        <a href=" {{ path('app_admin_appointment') }}">Add appointment</a>
+                        <a href=" {{ path('app_admin_appointment') }}">Ajouter un RDV</a>
                     </button>
 					<button class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">
-                        <a href="">Reviews</a>
+                        <a href="">Avis clients</a>
                     </button>
 
                    	<button class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">
-                        <a href="">Message</a>
+                        <a href="">Messages</a>
                     </button>
 				</div>
 
 				<div class="basis-1/2">
-					<p>Your appointment</p>
+					<h2 class="text-2xl text-blue font-bold pb-5">
+						Vos rendez-vous programmés
+					</h2>
+					{% if appointments is empty %}
+						<p>Vous n'avez pas de rendez-vous programmé.</p>
+
+					{% else %}
 					{% for appointment in appointments %}
-						{% set appointmentDate = appointment.startedAt|date('m/d/Y') %}
+					{% set appointmentDate = appointment.startedAt|date('m/d/Y') %}
 						{% set appointmentSchedule = appointment.startedAt|date('H:i') %}
 						{% set appointmentId = appointment.id %}
 						<div class="flex flex-row justity-center items-center w-full bg-white mt-5 p-5">
 							<div class="basis-1/2">
 								<p>
-									User :
+									Nom et prénom de l'utilisateur :
 									{{ appointment.user.firstName }}
 									{{ appointment.user.lastName }}
 								</p>
@@ -42,7 +48,7 @@
 									{{ appointmentDate }}
 								</p>
 								<p>
-									Schedule :
+									Horaire :
 									{{ appointmentSchedule }}
 								</p>
 							</div>
@@ -55,7 +61,8 @@
 								</form>
 							</div>
 						</div>
-					{% endfor %}
+						{% endfor %}
+					{% endif %}
 				</div>
 			</div>
 		</div>

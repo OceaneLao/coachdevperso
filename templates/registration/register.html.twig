@@ -1,67 +1,89 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register
+{% block title %}Inscription
 {% endblock %}
 
 {% block body %}
-	<div class="container mx-auto py-10">
-		<div class="flex flex-col justify-center items-center text-center">
+	<div class="container m-auto">
+		<div class="flex flex-row justify-center items-center gap-5">
+            <div class="basis-1/3 flex flex-col justify-center items-center">
+                <img class="w-full" src="{{ asset("img/inscription.jpg") }}" alt="">
+            </div>
+
+            <div class="basis-1/3 flex flex-col justify-center items-center">
 			{% for flash_error in app.flashes('verify_email_error') %}
 				<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
 			{% endfor %}
 
-			<h2 class="text-3xl text-blue font-bold pb-5">Register</h2>
+			<h2 class="text-3xl text-blue font-bold pb-5">S'inscrire</h2>
 
-			{{ form_errors(registrationForm) }}
+			{{ form_start(registrationForm, {
+                'attr': {
+                    'class': 'text-center',
+                }
+            }) }}
 
-			{{ form_start(registrationForm) }}
+            {{ form_errors(registrationForm) }}
+            <div class = 'text-red'>
+              {{ form_errors(registrationForm.plainPassword.first) }}
+            </div>
 
             {{ form_widget(registrationForm.firstName, {
                 'attr': {
-                    'class': 'border ps-5 py-2 w-full my-2 me-1',
-                    'placeholder': 'Enter your first name',
+                    'class': 'border border-brown rounded-lg w-full ps-3 py-2 mb-3',
+                    'placeholder': 'Entrez votre prénom',
                 }
             }) }}
             
             {{ form_widget(registrationForm.lastName, {
                 'attr': {
-                    'class': 'border ps-5 py-2 w-full my-2 me-1',
-                    'placeholder': 'Enter your last name',
+                    'class': 'border border-brown rounded-lg w-full ps-3 py-2 mb-3',
+                    'placeholder': 'Entrez votre nom de famille',
                 }
             }) }}
 
             {{ form_widget(registrationForm.phoneNumber, {
                 'attr': {
-                    'class': 'border ps-5 py-2 w-full my-2 me-1',
-                    'placeholder': 'Enter your phone number',
+                    'class': 'border border-brown rounded-lg w-full ps-3 py-2 mb-3',
+                    'placeholder': 'Entrez votre numéro de téléphone',
                 }
             }) }}
 
 			{{ form_widget(registrationForm.email, {
                 'attr': {
-                    'class': 'border ps-5 py-2 w-full my-2 me-1',
-                    'placeholder': 'Enter your email',
+                    'class': 'border border-brown rounded-lg w-full ps-3 py-2 mb-3',
+                    'placeholder': 'Entrez votre adresse e-mail',
                 }
             }) }}
-			{{ form_widget(registrationForm.plainPassword, {
+
+			{{ form_widget(registrationForm.plainPassword.first, {
             'attr': {
-                    'class': 'border ps-5 py-2 w-full my-2 me-1',
-                    'placeholder': 'Enter your password',
+                    'class': 'border border-brown rounded-lg w-full ps-3 py-2 mb-3',
+                    'placeholder': 'Entrez votre mot de passe',
                 }
-        }) }}
-        <div class="flex flex-row">
-            {{ form_widget(registrationForm.agreeTerms) }} 
-            <p class="ms-1">
-                Agree with terms
-            </p>
-        </div>
+            }) }}
+
+            {{ form_widget(registrationForm.plainPassword.second, {
+                'attr' : {
+                    'class': 'border border-brown rounded-lg w-full ps-3 py-2 mb-3',
+                    'placeholder': 'Confirmez votre mot de passe',
+                }
+            }) }}
+
+            <div class="flex flex-row justify-center">
+                {{ form_widget(registrationForm.agreeTerms) }} 
+                <p class="text-brown my-2 ms-1">
+                    J'accepte les termes de <a href="" class="no-underline hover:underline">conditions générales d'utilisation</a>.
+                </p>
+            </div>
 			
-			<button type="submit" class="btn bg-blue border-2 border-blue rounded-full text-white px-10 py-3">Register</button>
+			    <button type="submit" class="btn bg-blue border-2 border-blue rounded-full text-white px-10 py-3">S'inscrire</button>
 			{{ form_end(registrationForm) }}
 
-            <p>
-                Already an account ? <a href="{{ path("app_login")}}">Login</a>
-            </p>
+                <p class="text-brown my-2">
+                    Déjà un compte ? <a href="{{ path("app_login")}}" class="no-underline hover:underline">Se connecter</a>
+                </p>
+            </div>
 		</div>
 	</div>
 {% endblock %}
