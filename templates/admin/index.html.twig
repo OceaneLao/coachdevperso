@@ -38,7 +38,19 @@
 						{% set appointmentId = appointment.id %}
 						<div class="flex flex-row justity-center items-center w-full bg-white mt-5 p-5">
 							<div class="basis-1/2">
-								<p>
+								<div class="flex flex-col">
+									<div class = "basis-1/2">
+										{% for profile in profiles %}
+		
+									{% if user.profile is not defined %}
+										<img src="{{ asset('uploads/profiles/' ~ profile.picture) }}" alt="Image du profil" class="object-cover object-center rounded-full h-24 w-24 border border-brown">
+									{% else %}
+										<img src="" alt="" class="object-cover object-center rounded-full h-24 w-24 border border-brown">
+									{% endif %}
+									{% endfor %}
+									</div>
+									<div class="basis-1/2"> 
+									<p>
 									Utilisateur :
 									{{ appointment.user.firstName }}
 									{{ appointment.user.lastName }}
@@ -51,6 +63,9 @@
 									Horaire :
 									{{ appointmentSchedule }}
 								</p>
+									</div>
+								</div>
+								
 							</div>
 
 							<div class="basis-1/2 flex flex-col items-end">

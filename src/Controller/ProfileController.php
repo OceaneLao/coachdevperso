@@ -115,7 +115,6 @@ class ProfileController extends AbstractController
 
             // Récupérer la nouvelle image soumise dans le formulaire
             $newPicture = $form->get('picture')->getData();
-                dd($newPicture);
             if($newPicture){
                 // Génrer un nom unique pour la nouvelle image
                 $newPictureFileName = uniqid() . '.' . $newPicture->guessExtension();

@@ -8,7 +8,12 @@
         <h1 class="text-3xl text-blue font-bold pb-5">
 			Modifiez votre profil
 		</h1>
-
+		
+		<img class="object-cover object-center rounded-full h-48 w-48" src="{{ asset('uploads/profiles/' ~ profile.picture) }}" alt="">
+		<p class ="text-brown">
+			{{ profile.description }}
+		</p>
+		
 		{{ form_start(form, 
 			{'attr' : 
 				{'class': 'w-9/12 text-center'}}
@@ -19,7 +24,7 @@
 				Modifier
 			</button>
 		{{form_end(form)}}
-		<img class="w-96" src="{{ profile.picture }}" alt="">
+		
     </div> 
 </div>
 {% endblock %}

@@ -35,6 +35,7 @@ class ProfileType extends AbstractType
              ])
             ->add('description', TextareaType::class, [
                 'label' => false,
+                'required' => false,
                 'attr' => [ 
                     'class' => 'border border-brown rounded-lg w-9/12 ps-3 pt-2 pb-36',
                     'placeholder' => 'Ajoutez votre description'],  

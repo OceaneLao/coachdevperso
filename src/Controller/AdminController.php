@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Appointment;
+use App\Entity\Profile;
 use App\Form\AppointmentFilterType;
 use App\Form\AppointmentFormType;
 use App\Repository\AppointmentRepository;
@@ -23,8 +24,14 @@ class AdminController extends AbstractController
         $appointmentRepository = $entityManagerInterface->getRepository(Appointment::class);
         $appointments = $appointmentRepository->findBy(['isAvailable' => false], ['id' => 'ASC']);
 
+        // Récupérer la photo de profil des utilisateurs
+        $user = $this->getUser();
+        $profileRepository = $entityManagerInterface->getRepository(Profile::class);
+        $profiles = $profileRepository->findBy(['user'=>$user->getId()]);
+
         return $this->render('admin/index.html.twig', [
             'appointments' => $appointments,
+            'profiles' => $profiles,
         ]);
     }
 

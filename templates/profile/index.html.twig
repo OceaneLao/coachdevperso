@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Créez votre profil
+{% block title %}Votre profil
 {% endblock %}
 
 {% block body %}
@@ -11,11 +11,13 @@
 			</h1>
 		
 		{% for profile in profiles %}
-			<img src="{{ asset('uploads/profiles/' ~ profile.picture) }}" alt="Image du profil" class="w-96">
-				<p>
+		
+		{% if user.profile is not defined %}
+			<img src="{{ asset('uploads/profiles/' ~ profile.picture) }}" alt="Image du profil" class="object-cover object-center rounded-full h-48 w-48 border border-brown">
+				<p class ="text-brown">
 					{{ profile.description }}
 				</p>
-		{% endfor %}
+		
 			{% for flashError in app.flashes ('error') %}
 				<div class='text-red'>
 					{{ flashError }}
@@ -28,19 +30,22 @@
 				</div>
 			{% endfor %}
 
-	{% if user.profile is not defined %}
 		<a href="{{ path('app_profile_edit') }}">
 			<button class="bg-white border border-blue rounded-full text-blue w-48 py-3 mt-5">
 				Editer
 			</button>
 		</a>
+
 	{% else %}
+
 		<a href="{{ path('app_profile_new') }}">
 			<button class="bg-white border border-blue rounded-full text-blue w-48 py-3 mt-5">
 				Créer votre profil
 			</button>
 		</a>
+
 	{% endif %}
+{% endfor %}
 		</div>
 	</div>
 {% endblock %}

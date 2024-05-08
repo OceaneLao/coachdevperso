@@ -16,8 +16,8 @@
 
 		{% for profile in profiles %}
 		<div class="flex flex-row">
-		<img class="w-48 rounded" src="{{ asset('uploads/profiles/' ~ profile.picture) }}" alt="Image du profil">
-		<p>
+			<img class="object-cover object-center rounded-full h-24 w-24" src="{{ asset('uploads/profiles/' ~ profile.picture) }}" alt="Image du profil">
+		<p class="ms-2">
 			{{ profile.description }}
 		</p>
 		</div>
