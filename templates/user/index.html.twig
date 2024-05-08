@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello
+{% block title %}Bonjour
 	{{ app.user.firstName }}
 	{{ app.user.lastName }}
 {% endblock %}
 
 {% block body %}
-	<div class="container mx-auto w-9/12 flex flex-col justify-center pt-10 py-5">
+	<div class="container m-auto w-9/12 flex flex-col justify-center">
 
 		<h1 class="text-3xl text-blue font-bold pb-5">
 			Bonjour
@@ -29,18 +29,18 @@
 				{% if appointments|length > 0  %}
 				
 				{% for appointment in appointments %}
-					{% set appointmentDate = appointment.startedAt|date('m/d/Y') %}
-					{% set appointmentSchedule = appointment.startedAt|date('H:i') %}
+					{% set appointmentDate = appointment.startedAt|format_datetime('full', 'none', locale='fr') %}
+					{% set appointmentSchedule = appointment.startedAt|format_datetime('none', 'short', locale='fr') %}
 					{% set appointmentIsAvailable = appointment.isAvailable %}
 					{% set appointmentId = appointment.id %}
 
 					{# Si l'utilisateur a réservé un ou plusieurs RDV #}
 					{% if not appointmentIsAvailable %}
 						<div class="flex flex-col justify-center items-center bg-white p-5 border border-brown rounded-lg">
-							<p>
+							<p class="text-brown">
 								Date : {{ appointmentDate }}
 							</p>
-							<p>
+							<p class="text-brown">
 								Horaire : {{ appointmentSchedule }}
 							</p>
 						
@@ -50,16 +50,14 @@
 								</button>
 							</a>
 
-							{# <form action="{{ path('app_appointment_edit', {'id': appointmentId }) }}" method="post"> #}
-								<a href={{ path('app_appointment_edit', {'id': appointmentId }) }}>
-									<button class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">
-										Modifier
-									</button>
-								</a>
-							{# </form> #}
+							<a href={{ path('app_appointment_edit', {'id': appointmentId }) }}>
+								<button class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">
+									Modifier
+								</button>
+							</a>
 
 							<form action="{{ path('app_appointment_cancel', {'id': appointmentId }) }}" method="post">
-								<button type="submit" class="bg-white border border-blue rounded-full text-blue w-48 py-3 m-2" onclick="confirm('Cancel your appointment ?');">
+								<button type="submit" class="bg-white border border-blue rounded-full text-blue w-48 py-3 m-2" onclick="return confirm('Annuler votre rendez-vous ?');">
 									Annuler
 								</button>
 							</form>
@@ -72,7 +70,7 @@
 					<h2 class="text-2xl text-blue font-bold mb-2">
 						Pas de rendez-vous programmé.
 					</h2>
-					<button class="bg-blue border-blue rounded-full text-white mt-5 px-10 py-3">
+					<button class="bg-blue border-blue rounded-full text-white w-48 py-3 m-2">
 					<a href="{{ path('app_appointment')}}">
 						Prendre un RDV
 					</a>
@@ -86,8 +84,8 @@
 					Vos paiements
 				</h2>
 				<div class="flex flex-col justify-center items-center bg-white p-10 border border-brown rounded-lg">
-					<p>
-						Pas de tickets.
+					<p class="text-brown">
+						Pas de ticket. (V2)
 					</p>
 				</button>
 				</div>

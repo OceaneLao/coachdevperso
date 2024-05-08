@@ -4,11 +4,15 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container mx-auto py-10">
-		<p>Le rendez-vous a bien été supprimé.</p>
+	<div class="container m-auto w-9/12 flex flex-col justify-center items-center">
+		<h1 class="text-3xl text-blue font-bold pb-5">
+			Le rendez-vous a bien été supprimé.
+		</h1>
 
-        <button class="bg-blue border border-blue rounded-full text-white px-20 py-3 m-2">
-            <a href=" {{ path('app_admin') }}">Admin</a>
-        </button>
+        <a href=" {{ path('app_admin') }}">
+			<button class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">
+				Compte admin
+			</button>
+		</a>
 	</div>
 {% endblock %}

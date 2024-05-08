@@ -11,7 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use DateTimeImmutable;
 
 class AdminController extends AbstractController
 {
@@ -80,7 +79,7 @@ class AdminController extends AbstractController
             }
         }
 
-        //Formulaire pour filtrer
+        // Formulaire pour filtrer les rendez-vous
         $result = [];
         if($filterForm->isSubmitted() && $filterForm->isValid()){
             $startDate = $filterForm->get('startedAt')->getData();
@@ -103,7 +102,6 @@ class AdminController extends AbstractController
                 }
             }
         }
-        // dd($result);
 
     return $this->render('admin/add-appointment.html.twig', [
         'appointments' => $result,
@@ -128,7 +126,7 @@ class AdminController extends AbstractController
         $entityManagerInterface ->flush();
 
     return $this->render('admin/delete-appointment.html.twig', [
-        'id' => $appointmentId
+        'id' => $appointmentId,
     ]);
     }
 }

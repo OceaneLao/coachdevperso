@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Appointment
+	Prendre un rendez-vous
 {% endblock %}
 
 {% block body %}
-	<div class="container mx-auto py-10 w-full text-center">
+	<div class="container mx-auto w-full text-center pt-10">
 		<h1 class="text-3xl text-blue font-bold mb-2">
 			Prendre un rendez-vous
 		</h1>
@@ -55,7 +55,7 @@
 							{% if appointmentDate == currentDate %}
 								{% if appointment.isAvailable %}
 								<form action="{{ path('app_appointment_submit', {'id': appointment.id}) }}" method="post">
-									<button name="selected_schedule" type="submit" onclick="confirm('Confirm your appointment ?');" id="selectSchedule" class="bg-white border rounded-full px-5 py-2 text-brown">
+									<button name="selected_schedule" type="submit" onclick="return confirm('Confirmez votre rendez-vous ?');" id="selectSchedule" class="bg-white border rounded-full px-5 py-2 text-brown">
 										{{ appointment.startedAt|format_datetime('none', 'short', locale='fr') }}
 									</button>
 								</form>

@@ -9,7 +9,7 @@ module.exports = {
       // Configure your color palette here
       pink : "#ce6a85",
       blue : "#84a59d",
-      brown : "#99796e",
+      brown : "#64594E",
       white : "#fff",
       red : "#f00",
       beige : "#fbf5f4",

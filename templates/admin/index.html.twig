@@ -11,7 +11,7 @@
 			</h1>
 
 			<div class="flex flex-row justify-center w-full gap-4">
-				<div class="flex flex-col justify-center items-center">
+				<div class="flex flex-col justify-start">
 					<button class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">
                         <a href=" {{ path('app_admin_appointment') }}">Ajouter un RDV</a>
                     </button>
@@ -33,13 +33,13 @@
 
 					{% else %}
 					{% for appointment in appointments %}
-					{% set appointmentDate = appointment.startedAt|date('m/d/Y') %}
-						{% set appointmentSchedule = appointment.startedAt|date('H:i') %}
+					{% set appointmentDate = appointment.startedAt|format_datetime('full', 'none', locale='fr') %}
+						{% set appointmentSchedule = appointment.startedAt|format_datetime('none', 'short', locale='fr') %}
 						{% set appointmentId = appointment.id %}
 						<div class="flex flex-row justity-center items-center w-full bg-white mt-5 p-5">
 							<div class="basis-1/2">
 								<p>
-									Nom et prénom de l'utilisateur :
+									Utilisateur :
 									{{ appointment.user.firstName }}
 									{{ appointment.user.lastName }}
 								</p>
@@ -53,10 +53,15 @@
 								</p>
 							</div>
 
-							<div class="basis-2/2">
+							<div class="basis-1/2 flex flex-col items-end">
+								<a href="">
+									<button class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">
+										Appel vidéo
+									</button>
+								</a>
 								<form action="{{ path('app_admin_appointment_delete', {'id' : appointmentId }) }}" method="POST" class="flex flex-col" >
-									<button type="submit" class="bg-white border border-blue rounded-full text-blue px-20 py-3 m-2" onclick="confirm('Delete appointment ?');">
-										Delete
+									<button type="submit" class="bg-white border border-blue rounded-full text-blue w-48 py-3 m-2" onclick="return confirm('Supprimer le rendez-vous ?');">
+										Supprimer RDV
 									</button>
 								</form>
 							</div>
