@@ -26,13 +26,20 @@ class AdminController extends AbstractController
         $appointmentRepository = $entityManagerInterface->getRepository(Appointment::class);
         $appointments = $appointmentRepository->findBy(['isAvailable' => false], ['id' => 'ASC']);
 
-        // Récupérer les profils des utilisateurs associcés à ces rendez-vous
-        $profileRepository = $entityManagerInterface->getRepository(Profile::class);
-        $profile = $profileRepository->findOneBy(['user'=>$user]);
-        if ($profile) {
-            $profiles[] = $profile;
-        }else{
-            $profiles[] = null;
+        // Tableau pour stocker les profiles des utilisateurs
+        $profiles = [];
+
+        // Récupérer les profils des utilisateurs associés aux rendez-vous
+        foreach ($appointments as $appointment){
+            $user = $appointment->getUser();
+            if ($user) {
+                // Vérifier su le profil de l'utilisateur n'a pas été ajoutée au tableau
+                if(!isset($profiles[$user->getId()])){
+                    $profileRepository = $entityManagerInterface->getRepository(Profile::class);
+                    $profile = $profileRepository->findOneBy(['user'=>$user]);
+                    $profiles[$user->getId()] = $profile ?? null;
+                }
+            }
         }
 
         return $this->render('admin/index.html.twig', [

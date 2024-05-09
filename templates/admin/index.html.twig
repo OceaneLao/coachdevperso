@@ -39,13 +39,13 @@
 							<div class="basis-1/2">
 								<div class="flex flex-row justify-center items-center gap-5">
 									<div>
-										{% for profile in profiles %}
-											{% if profile and profile.picture is defined %}
+									{% set userId = appointment.user.id %}
+									{% set profile = profiles[userId]  ?? null %}
+											{% if profile is not null and profile.picture is defined %}
 											<img src="{{ asset('uploads/profiles/' ~ profile.picture) }}" alt="Image du profil" class="object-cover object-center rounded-full h-24 w-24 border border-brown">
 											{% else %}
 											<img src="{{ asset('img/user_unknown.png') }}" alt="" class="object-cover object-center rounded-full h-24 w-24 border border-brown">
 											{% endif %}
-										{% endfor %}
 									</div>
 									<div> 
 									<p>
