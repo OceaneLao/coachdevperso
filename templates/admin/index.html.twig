@@ -30,7 +30,6 @@
 					</h2>
 					{% if appointments is empty %}
 						<p>Vous n'avez pas de rendez-vous programmé.</p>
-
 					{% else %}
 					{% for appointment in appointments %}
 					{% set appointmentDate = appointment.startedAt|format_datetime('full', 'none', locale='fr') %}
@@ -38,18 +37,17 @@
 						{% set appointmentId = appointment.id %}
 						<div class="flex flex-row justity-center items-center w-full bg-white mt-5 p-5">
 							<div class="basis-1/2">
-								<div class="flex flex-col">
-									<div class = "basis-1/2">
+								<div class="flex flex-row justify-center items-center gap-5">
+									<div>
 										{% for profile in profiles %}
-		
-									{% if user.profile is not defined %}
-										<img src="{{ asset('uploads/profiles/' ~ profile.picture) }}" alt="Image du profil" class="object-cover object-center rounded-full h-24 w-24 border border-brown">
-									{% else %}
-										<img src="" alt="" class="object-cover object-center rounded-full h-24 w-24 border border-brown">
-									{% endif %}
-									{% endfor %}
+											{% if profile and profile.picture is defined %}
+											<img src="{{ asset('uploads/profiles/' ~ profile.picture) }}" alt="Image du profil" class="object-cover object-center rounded-full h-24 w-24 border border-brown">
+											{% else %}
+											<img src="{{ asset('img/user_unknown.png') }}" alt="" class="object-cover object-center rounded-full h-24 w-24 border border-brown">
+											{% endif %}
+										{% endfor %}
 									</div>
-									<div class="basis-1/2"> 
+									<div> 
 									<p>
 									Utilisateur :
 									{{ appointment.user.firstName }}
@@ -81,6 +79,7 @@
 								</form>
 							</div>
 						</div>
+						
 						{% endfor %}
 					{% endif %}
 				</div>

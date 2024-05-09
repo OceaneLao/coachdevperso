@@ -15,25 +15,32 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class AdminController extends AbstractController
 {
-    #[Route('/admin', name: 'app_admin')]
+    #[Route('/admin', name: 'app_admin', methods:['GET'])]
     public function index(
         EntityManagerInterface $entityManagerInterface,
     ): Response
     {
+        $user = $this->getUser();
+        
         // Récupérer tous les rendez-vous associés à des utilisateurs
         $appointmentRepository = $entityManagerInterface->getRepository(Appointment::class);
         $appointments = $appointmentRepository->findBy(['isAvailable' => false], ['id' => 'ASC']);
 
-        // Récupérer la photo de profil des utilisateurs
-        $user = $this->getUser();
+        // Récupérer les profils des utilisateurs associcés à ces rendez-vous
         $profileRepository = $entityManagerInterface->getRepository(Profile::class);
-        $profiles = $profileRepository->findBy(['user'=>$user->getId()]);
+        $profile = $profileRepository->findOneBy(['user'=>$user]);
+        if ($profile) {
+            $profiles[] = $profile;
+        }else{
+            $profiles[] = null;
+        }
 
         return $this->render('admin/index.html.twig', [
             'appointments' => $appointments,
             'profiles' => $profiles,
         ]);
     }
+
 
     // Ajouter des créneaux de RDV
     #[Route('/admin/add-appointment', name:'app_admin_appointment', methods:['GET', 'POST'])]

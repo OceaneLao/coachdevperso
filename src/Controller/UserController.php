@@ -19,6 +19,7 @@ class UserController extends AbstractController
         $user = $this->getUser();
         $appointmentRepository = $entityManagerInterface->getRepository(Appointment::class);
         $appointments = $appointmentRepository->findBy(['user'=>$user->getId()]);
+        
         $profileRepository = $entityManagerInterface->getRepository(Profile::class);
         $profiles = $profileRepository->findBy(['user'=>$user->getId()]);
 
