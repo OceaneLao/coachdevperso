@@ -143,6 +143,7 @@ class AdminController extends AbstractController
         $appointmentRepository = $entityManagerInterface->getRepository(Appointment::class);
         $appointment = $appointmentRepository->find($appointmentId);
         
+        // Supprimer le rendez-vous dans la BDD
         $entityManagerInterface ->remove($appointment);
         $entityManagerInterface ->flush();
 

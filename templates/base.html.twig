@@ -58,88 +58,85 @@
 					</ul>
 				</div>
 			</div>
+		</header>
+
+		{% block body %}
+		{% endblock %}
+
+		<footer class="mt-auto bg-pink text-white">
+			<div class="container mx-auto">
+				<ul class="flex flex-row justify-center items-center">
+					<li class="p-5">
+						<a href="">
+							Politique de confidentialité
+						</a>
+					</li>
+					<li class="p-5">
+						<a href="">
+							Mentions légales
+						</a>
+					</li>
+					<li class="p-5">
+						<a href="">
+							Conditions Générales d'Utilisation et de Vente
+						</a>
+					</li>
+				</ul>
+			</div>
+		</footer>
+
+		{# Modal wrapper #}
+		<div id="modal-wrapper" class="fixed z-10 inset-0 hidden">
+			<div class="flex items-center justify-center min-h-screen bg-blue bg-opacity-50 transition-all">
+			{# Modal box #}
+			<div class="bg-white p-10 flex flex-col justify-center items-center">
+				<span  class="flex flex-col items-end text-blue w-48 py-3 m-2">
+					<i id="close-modal-btn" class="fa fa-times" aria-hidden="true"></i>
+				</span>
+
+				{% if is_granted('ROLE_USER') %}
+				<a href="{{ path('app_user') }}">
+					<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
+						Mon compte
+					</button>
+				</a>
+				
+				<a href="{{ path('app_profile') }}">
+					<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
+						Mon profil
+					</button>
+				</a>
+
+				<a href="{{ path('app_logout') }}">
+					<button class="bg-white border-2 border-blue rounded-full text-blue w-48 py-3 m-2">
+						Déconnexion
+					</button>
+				</a>
+
+				{% else %}
+
+				<a href="{{ path('app_login') }}">
+					<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
+						Connexion
+					</button>
+				</a>
+
+				<a href="{{ path('app_register') }}">
+					<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
+						Inscription
+					</button>
+				</a>
+				{% endif %}
+			</div>
 		</div>
-	</header>
 
-	{% block body %}
-	{% endblock %}
-
-<footer class="mt-auto bg-pink text-white">
-	<div class="container mx-auto">
-		<ul class="flex flex-row justify-center items-center">
-			<li class="p-5">
-				<a href="">
-					Politique de confidentialité
-				</a>
-			</li>
-			<li class="p-5">
-				<a href="">
-					Mentions légales
-				</a>
-			</li>
-			<li class="p-5">
-				<a href="">
-					Conditions Générales d'Utilisation et de Vente
-				</a>
-			</li>
-		</ul>
-	</div>
-</footer>
-
-{# Modal wrapper #}
-<div id="modal-wrapper" class="fixed z-10 inset-0 hidden">
-<div class="flex items-center justify-center min-h-screen bg-blue bg-opacity-50 transition-all">
-	{# Modal box #}
-	<div class="bg-white p-10 flex flex-col justify-center items-center">
-		<span  class="flex flex-col items-end text-blue w-48 py-3 m-2">
-			<i id="close-modal-btn" class="fa fa-times" aria-hidden="true"></i>
-		</span>
-
-		{% if is_granted('ROLE_USER') %}
-		<a href="{{ path('app_user') }}">
-			<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
-				Mon compte
-			</button>
-		</a>
-		
-		<a href="{{ path('app_profile') }}">
-			<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
-				Mon profil
-			</button>
-		</a>
-
-		<a href="{{ path('app_logout') }}">
-			<button class="bg-white border-2 border-blue rounded-full text-blue w-48 py-3 m-2">
-				Déconnexion
-			</button>
-		</a>
-
-		{% else %}
-
-		<a href="{{ path('app_login') }}">
-			<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
-				Connexion
-			</button>
-		</a>
-
-		<a href="{{ path('app_register') }}">
-			<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
-				Inscription
-			</button>
-		</a>
-		{% endif %}
-	</div>
-</div>
-
-	<script src="https://unpkg.com/@material-tailwind/html@latest/scripts/collapse.js"></script>
-
+		<script src="https://unpkg.com/@material-tailwind/html@latest/scripts/collapse.js"></script>
 		<script>
-			document.getElementById("open-modal-btn").addEventListener("click", () => {
-			document.getElementById("modal-wrapper").classList.remove("hidden")
+			document.querySelector("#open-modal-btn").addEventListener("click", () => {
+			document.querySelector("#modal-wrapper").classList.remove("hidden")
 			})
-
-			document.getElementById("close-modal-btn").addEventListener("click", () => {
-			document.getElementById("modal-wrapper").classList.add("hidden")
+			document.querySelector("#close-modal-btn").addEventListener("click", () => {
+			document.querySelector("#modal-wrapper").classList.add("hidden")
 			})
 		</script>
 	</body>

@@ -109,7 +109,6 @@ class AppointmentController extends AbstractController
         $appointment->setAvailable(true);
         $entityManager->flush();
 
-        // Rediriger l'utilisateur vers une page de confirmation ou une autre page pertinente
         return $this->render('appointment/cancel.html.twig',[
             'id' => $appointment->getId(),
         ]);
