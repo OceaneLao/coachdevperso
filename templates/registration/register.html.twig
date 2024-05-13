@@ -4,25 +4,31 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container m-auto">
-		<div class="flex flex-row justify-center items-center gap-5">
+	<div class="container m-auto md:py-0 py-10">
+		<div class="flex md:flex-row flex-col justify-center items-center gap-5">
             <div class="basis-1/3 flex flex-col justify-center items-center">
-                <img class="w-full" src="{{ asset("img/inscription.jpg") }}" alt="">
+                <img class="w-64 md:w-full shadow-[20px_20px_0px_0px_#84a59d]" src="{{ asset("img/inscription.jpg") }}" alt="Inscription">
             </div>
 
-            <div class="basis-1/3 flex flex-col justify-center items-center">
+            <div class="basis-1/3 text-center mt-10 mx-2 md:m-5">
 			{% for flash_error in app.flashes('verify_email_error') %}
 				<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
 			{% endfor %}
 
-			<h2 class="text-3xl text-blue font-bold pb-5">S'inscrire</h2>
+			<h1 class="text-4xl md:text-3xl text-blue font-bold pb-5">
+				S'inscrire
+			</h1>
+
+            <p class="text-brown pb-5">
+                Veuillez remplir les champs d'inscription pour vous créer un compte.
+            </p>
 
             {% for flash_message in app.flashes('success') %}
     			<div class="alert alert-success text-green text-center">{{ flash_message }}</div>
 			{% endfor %}
 			{{ form_start(registrationForm, {
                 'attr': {
-                    'class': 'text-center',
+                    'class': 'text-center flex flex-col justify-center items-center',
                 }
             }) }}
 
@@ -33,49 +39,49 @@
 
             {{ form_widget(registrationForm.firstName, {
                 'attr': {
-                    'class': 'border border-brown rounded-lg w-full ps-3 py-2 mb-3',
+                    'class': 'border border-brown rounded-lg w-10/12 md:w-full ps-3 py-2 mb-3',
                     'placeholder': 'Entrez votre prénom',
                 }
             }) }}
             
             {{ form_widget(registrationForm.lastName, {
                 'attr': {
-                    'class': 'border border-brown rounded-lg w-full ps-3 py-2 mb-3',
+                    'class': 'border border-brown rounded-lg w-10/12 md:w-full ps-3 py-2 mb-3',
                     'placeholder': 'Entrez votre nom de famille',
                 }
             }) }}
 
             {{ form_widget(registrationForm.phoneNumber, {
                 'attr': {
-                    'class': 'border border-brown rounded-lg w-full ps-3 py-2 mb-3',
+                    'class': 'border border-brown rounded-lg w-10/12 md:w-full ps-3 py-2 mb-3',
                     'placeholder': 'Entrez votre numéro de téléphone',
                 }
             }) }}
 
 			{{ form_widget(registrationForm.email, {
                 'attr': {
-                    'class': 'border border-brown rounded-lg w-full ps-3 py-2 mb-3',
+                    'class': 'border border-brown rounded-lg w-10/12 md:w-full ps-3 py-2 mb-3',
                     'placeholder': 'Entrez votre adresse e-mail',
                 }
             }) }}
 
 			{{ form_widget(registrationForm.plainPassword.first, {
             'attr': {
-                    'class': 'border border-brown rounded-lg w-full ps-3 py-2 mb-3',
+                    'class': 'border border-brown rounded-lg w-10/12 md:w-full ps-3 py-2 mb-3',
                     'placeholder': 'Entrez votre mot de passe',
                 }
             }) }}
 
             {{ form_widget(registrationForm.plainPassword.second, {
                 'attr' : {
-                    'class': 'border border-brown rounded-lg w-full ps-3 py-2 mb-3',
+                    'class': 'border border-brown rounded-lg w-10/12 md:w-full ps-3 py-2 mb-3',
                     'placeholder': 'Confirmez votre mot de passe',
                 }
             }) }}
 
-            <div class="flex flex-row justify-center">
+            <div class="flex flex-row justify-center w-10/12">
                 {{ form_widget(registrationForm.agreeTerms) }} 
-                <p class="text-brown my-2 ms-1">
+                <p class="text-brown my-2 md:ms-1">
                     J'accepte les termes de <a href="" class="no-underline hover:underline">conditions générales d'utilisation</a>.
                 </p>
             </div>

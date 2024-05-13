@@ -23,7 +23,7 @@ class ChangePasswordFormType extends AbstractType
                     'label' => false,
                     'attr' => [
                         'autocomplete' => 'new-password',
-                        'class' => 'border border-brown rounded-lg w-full ps-3 py-2 my-3',
+                        'class' => 'border border-brown rounded-lg w-10/12 md:w-9/12 ps-3 py-2 mb-3',
                         'placeholder' => 'Entrez votre nouveau mot de passe',
                     ],
                 ],
@@ -50,7 +50,7 @@ class ChangePasswordFormType extends AbstractType
                 ],
                 'second_options' => [ 
                         'attr' => [ 
-                            'class' => 'border border-brown rounded-lg w-full ps-3 py-2 my-3',
+                            'class' => 'border border-brown rounded-lg w-10/12 md:w-9/12 ps-3 py-2 mb-3',
                             'placeholder' => 'Confirmez votre nouveau mot de passe',
                             ]
                         ],

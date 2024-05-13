@@ -3,8 +3,8 @@
 {% block body %}
 	<div class="container mx-auto py-10">
 		<div class="flex md:flex-row flex-col-reverse justify-center items-center">
-			<div class="basis-1/3 text-left m-5">
-				<h1 class="text-3xl text-blue font-bold pb-5">
+			<div class="basis-1/3 text-center md:text-left mt-10 mx-2 md:m-5">
+				<h1 class="text-4xl md:text-3xl text-blue font-bold pb-5">
 					Bienvenue sur mon site web !
 				</h1>
 				<p class="text-brown pb-5">
@@ -16,7 +16,7 @@
 				</button>
 			</div>
 			<div class="basis-1/1">
-				<img class="w-96 shadow-[20px_20px_0px_0px_#84a59d]" src="{{ asset("img/portrait.jpg") }}" alt="">
+				<img class="w-64 md:w-96 shadow-[20px_20px_0px_0px_#84a59d]" src="{{ asset("img/portrait.jpg") }}" alt="Portrait May-Dia">
 			</div>
 		</div>
 	</div>
@@ -24,11 +24,11 @@
 	<div class="container mx-auto py-10">
 		<div class="flex md:flex-row flex-col justify-center items-center">
 			<div class="basis-1/1">
-				<img class="w-96 shadow-[-20px_20px_0px_0px_#84a59d]" src="{{ asset("img/Image_about.jpg") }}" alt="">
+				<img class="w-64 md:w-96 shadow-[-20px_20px_0px_0px_#84a59d]" src="{{ asset("img/Image_about.jpg") }}" alt="Entraide">
 			</div>
 
-			<div class="basis-1/3 text-left m-5">
-				<h2 class="text-3xl text-blue font-bold pb-5">
+			<div class="basis-1/3 text-center md:text-left mt-10 mx-2 md:m-5">
+				<h2 class="text-4xl md:text-3xl text-blue font-bold pb-5">
 					A propos
 				</h2>
 				<p class="text-brown pb-5">
@@ -49,17 +49,17 @@
 	</div>
 
 	<div class="container mx-auto flex flex-col justify-center items-center py-10">
-		<h2 class="text-3xl text-blue font-bold text-center">
+		<h2 class="text-4xl md:text-3xl text-blue font-bold text-center">
 			Avis clients
 		</h2>
 
 		<div class="flex md:flex-row flex-col justify-center items-center py-5">
 			{% for review in reviews | slice(0,1) %}
 				<div class="basis-1/1">
-					<img class="w-48 rounded-full max-w-full" src="{{ asset(review.picture) }}" alt="">
+					<img class="w-44 md:w-48 rounded-full max-w-full" src="{{ asset(review.picture) }}" alt="Photo de profil avis client">
 				</div>
 
-				<div class="basis-1/3 text-left m-5">
+				<div class="basis-1/3 text-center md:text-left mt-10 mx-2 md:m-5">
 					<h3 class="text-2xl text-blue font-bold">
 						{{ review.name }}
 					</h3>
@@ -75,9 +75,12 @@
 		</button>
 	</div>
 
-	<div class="container mx-auto w-9/12 flex flex-col justify-center pt-10 pb-12">
-	<h2 class="text-3xl text-blue font-bold text-center mb-2">
-			Une demande ? Une question ?
+	<div class="container md:mx-auto md:w-9/12 flex flex-col justify-center pt-10 pb-12">
+	<h2 class="text-4xl md:text-3xl text-blue font-bold text-center mb-2">
+			<div class="flex md:flex-row flex-col items-center justify-center">
+				<div class="pe-2">Une demande ?</div> 
+				<div>Une question ?</div>
+			</div>
 		</h2>
 	{% include "contact/form.html.twig" %}
 	</div>

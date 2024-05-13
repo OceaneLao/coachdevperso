@@ -5,9 +5,12 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container mx-auto w-full text-center pt-10">
-		<h1 class="text-3xl text-blue font-bold mb-2">
-			Prendre un rendez-vous
+	<div class="container mx-auto w-full text-center pt-10 md:pb-0 pb-10">
+		<h1 class="text-4xl md:text-3xl text-blue font-bold text-center mb-2">
+			<div class="flex md:flex-row flex-col items-center justify-center">
+				<div class="pe-2">Prendre un</div> 
+				<div>rendez-vous</div>
+			</div>
 		</h1>
 		<p class="text-pink mb-2">
 			Sélectionnez une date
@@ -41,7 +44,7 @@
 			<button 
 			name="selected_date" 
 			data-collapse-target="collapse_{{ loop.index }}" 
-			class="bg-white text-center text-brown rounded-md border py-2 w-96 mb-2">
+			class="bg-white text-center text-brown rounded-md border py-2 w-80 md:w-96 mb-2">
 				{{ currentDate }}
 			</button>
 

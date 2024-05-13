@@ -9,15 +9,17 @@
 
 			<form method="post">
 
-				<h2 class="text-3xl text-blue font-bold pb-5">Se connecter</h2>
+			<h1 class="text-4xl md:text-3xl text-blue font-bold pb-5">
+				Se connecter
+			</h1>
 
 				{% if error %}
 					<div class="text-red">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 				{% endif %}
 
-				<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="border border-brown rounded-lg w-9/12 ps-3 py-2 mb-3" autocomplete="email" placeholder="Entrez votre adresse e-mail" required autofocus>
+				<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="border border-brown rounded-lg w-10/12 md:w-9/12 ps-3 py-2 mb-3" autocomplete="email" placeholder="Entrez votre adresse e-mail" required autofocus>
 
-				<input type="password" name="password" id="inputPassword" class="border border-brown rounded-lg w-9/12 ps-3 py-2 mb-3" placeholder="Entrez votre mot de passe" autocomplete="current-password" required>
+				<input type="password" name="password" id="inputPassword" class="border border-brown rounded-lg w-10/12 md:w-9/12 ps-3 py-2 mb-3" placeholder="Entrez votre mot de passe" autocomplete="current-password" required>
 
 				<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 

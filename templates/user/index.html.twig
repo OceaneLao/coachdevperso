@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container m-auto w-9/12 flex flex-col justify-center">
+	<div class="container m-auto w-9/12 flex flex-col justify-center md:py-0 py-10">
 
 		<h1 class="text-3xl text-blue font-bold pb-5">
 			Bonjour
@@ -15,7 +15,7 @@
 		</h1>
 
 		{% for profile in profiles %}
-		<div class="flex flex-row">
+		<div class="flex md:flex-row flex-col">
 			<img class="object-cover object-center rounded-full h-24 w-24" src="{{ asset('uploads/profiles/' ~ profile.picture) }}" alt="Image du profil">
 		<p class="ms-2">
 			{{ profile.description }}
@@ -23,7 +23,7 @@
 		</div>
 		{% endfor %}
 
-		<div class="flex flex-row gap gap-4">
+		<div class="flex md:flex-row flex-col gap gap-4">
 			<div class="basis-1/2">
 				<h2 class="text-2xl text-blue font-bold mb-2">Vos rendez-vous</h2>
 				{% if appointments|length > 0  %}

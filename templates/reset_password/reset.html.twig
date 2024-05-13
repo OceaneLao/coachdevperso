@@ -3,16 +3,16 @@
 {% block title %}Réinitialisation du mot de passe{% endblock %}
 
 {% block body %}
-<div class="container m-auto">
+<div class="container m-auto py-10">
 		<div class="flex flex-col justify-center items-center">
 
-    <h1 class="text-3xl text-blue font-bold pb-5">
-		Réinitialisez votre mot de passe
-	</h1>
+    <h1 class="text-4xl md:text-3xl text-blue font-bold pb-5 text-center">
+		  Réinitialisez votre mot de passe
+	  </h1>
 
     {{ form_start(resetForm, {
       'attr' : {
-        'class' : 'w-96 text-center',
+        'class' : 'md:w-96 text-center',
       }
     }) }}
     <div class = 'text-red'>

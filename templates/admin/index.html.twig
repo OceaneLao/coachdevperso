@@ -6,12 +6,12 @@
 {% block body %}
 	<div class="container mx-auto py-10">
 		<div class="flex flex-col justify-center items-center">
-			<h1 class="text-3xl text-blue font-bold pb-5">
+			<h1 class="text-4xl md:text-3xl text-blue font-bold text-center mb-2">
 				Bonjour May-Dia
 			</h1>
 
-			<div class="flex flex-row justify-center w-full gap-4">
-				<div class="flex flex-col justify-start">
+			<div class="flex md:flex-row flex-col justify-center w-full gap-4">
+				<div class="md:flex md:flex-col md:justify-start hidden sm:block">
 					<button class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">
                         <a href=" {{ path('app_admin_appointment') }}">Ajouter un RDV</a>
                     </button>
@@ -24,8 +24,8 @@
                     </button>
 				</div>
 
-				<div class="basis-1/2">
-					<h2 class="text-2xl text-blue font-bold pb-5">
+				<div class="md:basis-1/2">
+					<h2 class="text-2xl text-blue font-bold pb-5 md:text-left text-center">
 						Vos rendez-vous programmés
 					</h2>
 					{% if appointments is empty %}
@@ -35,7 +35,7 @@
 					{% set appointmentDate = appointment.startedAt|format_datetime('full', 'none', locale='fr') %}
 						{% set appointmentSchedule = appointment.startedAt|format_datetime('none', 'short', locale='fr') %}
 						{% set appointmentId = appointment.id %}
-						<div class="flex flex-row justity-center items-center w-full bg-white mt-5 p-5">
+						<div class="flex md:flex-row flex-col justity-center items-center w-full bg-white mt-5 p-5">
 							<div class="basis-1/2">
 								<div class="flex flex-row justify-center items-center gap-5">
 									<div>
