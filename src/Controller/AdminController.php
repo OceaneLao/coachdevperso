@@ -26,7 +26,7 @@ class AdminController extends AbstractController
         $appointmentRepository = $entityManagerInterface->getRepository(Appointment::class);
         $appointments = $appointmentRepository->findBy(['isAvailable' => false], ['id' => 'ASC']);
 
-        // Tableau pour stocker les profiles des utilisateurs
+        // Tableau pour stocker les profils des utilisateurs
         $profiles = [];
 
         // Récupérer les profils des utilisateurs associés aux rendez-vous
