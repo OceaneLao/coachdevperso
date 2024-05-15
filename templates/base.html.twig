@@ -62,154 +62,179 @@
 								<i class="fa fa-user-circle fa-lg"></i>
 							</button>
 						</li>
-					</div>
-				</li>
-			</ul>
+					</ul>
+				</div>
+			</div>
+
+			{# Mobile first menu #}
+			<div id="nav-links" class="md:hidden hidden min-h-[580px] sm:flex flex-col items-center justify-center">
+				<ul class="text-center sm:block">
+					<li class="p-5">
+						<a href="{{ path("home") }}">
+							Accueil
+						</a>
+					</li>
+					<li class="p-5">
+						<a href="{{ path("app_appointment") }}">
+							Rendez-vous
+						</a>
+					</li>
+					<li class="p-5">
+						<a href="{{ path("about") }}">
+							A propos
+						</a>
+					</li>
+					<li class="p-5">
+						<a href="{{ path("contact") }}">
+							Contact
+						</a>
+					</li>
+					<li class="p-5">
+						<button id="open-modal-btn" class="hidden sm:block">
+							<i class="fa fa-user-circle fa-lg"></i>
+						</button>
+						<div class="flex flex-col md:hidden sm:block justify-center items-center">
+
+							{% if is_granted('ROLE_ADMIN') %}
+								<button class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">
+									<a href=" {{ path('app_admin_appointment') }}">Ajouter un RDV</a>
+								</button>
+								<button class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">
+									<a href="">Avis clients</a>
+								</button>
+
+								<button class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">
+									<a href="">Messages</a>
+								</button>
+
+								<a href="{{ path('app_logout') }}">
+									<button class="bg-white border-2 border-blue rounded-full text-blue w-48 py-3 m-2">
+										Déconnexion
+									</button>
+								</a>
+
+							{% elseif is_granted('ROLE_USER') %}
+								<a href="{{ path('app_user') }}">
+									<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
+										Mon compte
+									</button>
+								</a>
+
+								<a href="{{ path('app_profile') }}">
+									<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
+										Mon profil
+									</button>
+								</a>
+
+								<a href="{{ path('app_logout') }}">
+									<button class="bg-white border-2 border-blue rounded-full text-blue w-48 py-3 m-2">
+										Déconnexion
+									</button>
+								</a>
+
+							{% else %}
+								<a href="{{ path('app_login') }}">
+									<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
+										Connexion
+									</button>
+								</a>
+
+								<a href="{{ path('app_register') }}">
+									<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
+										Inscription
+									</button>
+								</a>
+							{% endif %}
+						</div>
+					</li>
+				</ul>
+			</div>
+		</header>
+	
+	{% block body %}
+	{% endblock %}
+	
+	<footer class="mt-auto bg-pink text-white"><div class="container mx-auto">
+		<ul class="flex md:flex-row flex-col justify-center items-center">
+			<li class="p-5">
+				<a href="">
+					Politique de confidentialité
+				</a>
+			</li>
+			<li class="p-5">
+				<a href="">
+					Mentions légales
+				</a>
+			</li>
+			<li class="p-5">
+				<a href="">
+					Conditions Générales d'Utilisation et de Vente
+				</a>
+			</li>
+		</ul>
+	</footer>
+
+{# Modal wrapper #}
+<div id="modal-wrapper" class="fixed z-10 inset-0 hidden">
+	<div
+	class="flex items-center justify-center min-h-screen bg-blue bg-opacity-50 transition-all">
+	{# Modal box #}
+	<div class="bg-white p-10 flex flex-col justify-center items-center">
+		<span class="flex flex-col items-end text-blue w-48 py-3 m-2">
+			<i id="close-modal-btn" class="fa fa-times" aria-hidden="true"></i>
+		</span
+		>
+		{% if is_granted('ROLE_ADMIN') %}
+			<a href="{{ path('app_admin') }}">
+				<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
+					Mon compte
+				</button>
+			</a>
+			<a href="{{ path('app_logout') }}">
+				<button class="bg-white border-2 border-blue rounded-full text-blue w-48 py-3 m-2">
+					Déconnexion
+				</button>
+			</a>
+		{% elseif is_granted('ROLE_USER') %}
+			<a href="{{ path('app_user') }}">
+				<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
+					Mon compte
+				</button>
+			</a>
+
+			<a href="{{ path('app_profile') }}">
+				<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
+					Mon profil
+				</button>
+			</a>
+
+			<a href="{{ path('app_logout') }}">
+				<button class="bg-white border-2 border-blue rounded-full text-blue w-48 py-3 m-2">
+					Déconnexion
+				</button>
+			</a>
+
+		{% else %}
+
+			<a href="{{ path('app_login') }}">
+				<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
+					Connexion
+				</button>
+			</a>
+
+			<a href="{{ path('app_register') }}">
+				<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
+					Inscription
+				</button>
+			</a>
+		{% endif %}
 		</div>
+	</div>
+</div>
 
-		{# Mobile first menu #}
-		<div id="nav-links" class="md:hidden hidden min-h-[580px] sm:flex flex-col items-center justify-center">
-			<ul class="text-center sm:block">
-				<li class="p-5">
-					<a href="{{ path("home") }}">
-						Accueil
-					</a>
-				</li>
-				<li class="p-5">
-					<a href="{{ path("app_appointment") }}">
-						Rendez-vous
-					</a>
-				</li>
-				<li class="p-5">
-					<a href="{{ path("about") }}">
-						A propos
-					</a>
-				</li>
-				<li class="p-5">
-					<a href="{{ path("contact") }}">
-						Contact
-					</a>
-				</li>
-				<li class="p-5">
-					<button id="open-modal-btn" class="hidden sm:block">
-						<i class="fa fa-user-circle fa-lg"></i>
-					</button>
-					<div class="flex flex-col md:hidden sm:block justify-center items-center">
+<script src="https://unpkg.com/@material-tailwind/html@latest/scripts/collapse.js"></script>
 
-						{% if is_granted('ROLE_ADMIN') %}
-							<button class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">
-								<a href=" {{ path('app_admin_appointment') }}">Ajouter un RDV</a>
-							</button>
-							<button class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">
-								<a href="">Avis clients</a>
-							</button>
-
-							<button class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">
-								<a href="">Messages</a>
-							</button>
-
-							<a href="{{ path('app_logout') }}">
-								<button class="bg-white border-2 border-blue rounded-full text-blue w-48 py-3 m-2">
-									Déconnexion
-								</button>
-							</a>
-
-						{% elseif is_granted('ROLE_USER') %}
-							<a href="{{ path('app_user') }}">
-								<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
-									Mon compte
-								</button>
-							</a>
-
-							<a href="{{ path('app_profile') }}">
-								<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
-									Mon profil
-								</button>
-							</a>
-
-							<a href="{{ path('app_logout') }}">
-								<button class="bg-white border-2 border-blue rounded-full text-blue w-48 py-3 m-2">
-									Déconnexion
-								</button>
-							</a>
-
-						{% else %}
-							<a href="{{ path('app_login') }}">
-								<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
-									Connexion
-								</button>
-							</a>
-
-							<a href="{{ path('app_register') }}">
-								<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
-									Inscription
-								</button>
-							</a>
-						{% endif %}
-					</div>
-				</li>
-			</ul>
-		</div>
-	</body>
-</html></div></header>{% block body %}{% endblock %}<footer class="mt-auto bg-pink text-white"><div class="container mx-auto">
-<ul class="flex md:flex-row flex-col justify-center items-center">
-	<li class="p-5">
-		<a href="">
-			Politique de confidentialité
-		</a>
-	</li>
-	<li class="p-5">
-		<a href="">
-			Mentions légales
-		</a>
-	</li>
-	<li class="p-5">
-		<a href="">
-			Conditions Générales d'Utilisation et de Vente
-		</a>
-	</li>
-</ul></div></footer>{# Modal wrapper #}<div id="modal-wrapper" class="fixed z-10 inset-0 hidden"><div
-class="flex items-center justify-center min-h-screen bg-blue bg-opacity-50 transition-all">
-{# Modal box #}
-<div class="bg-white p-10 flex flex-col justify-center items-center">
-	<span class="flex flex-col items-end text-blue w-48 py-3 m-2">
-		<i id="close-modal-btn" class="fa fa-times" aria-hidden="true"></i>
-	</span>
-
-	{% if is_granted('ROLE_USER') %}
-		<a href="{{ path('app_user') }}">
-			<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
-				Mon compte
-			</button>
-		</a>
-
-		<a href="{{ path('app_profile') }}">
-			<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
-				Mon profil
-			</button>
-		</a>
-
-		<a href="{{ path('app_logout') }}">
-			<button class="bg-white border-2 border-blue rounded-full text-blue w-48 py-3 m-2">
-				Déconnexion
-			</button>
-		</a>
-
-	{% else %}
-
-		<a href="{{ path('app_login') }}">
-			<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
-				Connexion
-			</button>
-		</a>
-
-		<a href="{{ path('app_register') }}">
-			<button class="bg-blue border-2 border-blue rounded-full text-white w-48 py-3 m-2">
-				Inscription
-			</button>
-		</a>
-	{% endif %}
-</div></div></div><script src="https://unpkg.com/@material-tailwind/html@latest/scripts/collapse.js"></script><script>// Menu mobile first
+<script>// Menu mobile first
 document.querySelector("#open-menu").addEventListener("click", () => {
 document.querySelector("#nav-links").classList.remove("hidden")
 document.querySelector("#open-menu").classList.add("hidden")
@@ -227,4 +252,7 @@ document.querySelector("#modal-wrapper").classList.remove("hidden")
 })
 document.querySelector("#close-modal-btn").addEventListener("click", () => {
 document.querySelector("#modal-wrapper").classList.add("hidden")
-})</script></body></body></html>
+})
+</script>
+</body>
+</html>

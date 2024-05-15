@@ -48,22 +48,15 @@ class AdminController extends AbstractController
         ]);
     }
 
-
     // Ajouter des créneaux de RDV
     #[Route('/admin/add-appointment', name:'app_admin_appointment', methods:['GET', 'POST'])]
     public function addAppointment(
         Request $request,
-        EntityManagerInterface $entityManagerInterface,
-        AppointmentRepository $appointmentRepository
+        EntityManagerInterface $entityManagerInterface
     ): Response
     {
-       // Récupérer toutes les données dans le Repository
-       $appointmentRepository = $entityManagerInterface->getRepository(Appointment::class);
-       $appointments = $appointmentRepository->findAll();
-       $appointment = new Appointment();
-
        // Filtrer les RDV par année et par mois
-       $filterForm = $this->createForm(AppointmentFilterType::class, $appointment);
+       $filterForm = $this->createForm(AppointmentFilterType::class);
        $filterForm->handleRequest($request);
 
         $dates = [];
@@ -73,13 +66,15 @@ class AdminController extends AbstractController
             $year = $formData->format('Y');
             $month = $formData->format('m');
         
-        // Afficher les dates liées au mois sélectionné 
+        // Afficher les dates liées au mois et à l'année sélectionnés 
         $startDate = new \DateTime($year . '-' . $month . '-01');
         $endDate = new \DateTime($year . '-' . $month . '-31');
-
+        
+        // Afficher le dernier jour du mois
         $endDate = clone $startDate;
         $endDate->modify('last day of this month');
-
+        
+        // Affcher toutes les dates
         $currentDate = clone $startDate;
         while ($currentDate <= $endDate){
             $dates[] = $currentDate->format('Y-m-d');
@@ -87,14 +82,55 @@ class AdminController extends AbstractController
         }
       }
 
+      // Définir les horaires
+      $schedules = [];
+      $startHour = 9;
+      $endHour = 17;
+
+      for ($hour = $startHour; $hour < $endHour; $hour++ ){
+        $start = $hour . ':00';
+        $end = ($hour + 1) . ':00';
+        $schedules[] = $start . '-' . $end;
+      }
+
+        // Ajouter un RDV
+        $appointment = new Appointment();
+      
+        // Date de création du RDV avec date et jour d'aujourd'hui
+        $appointment->setCreatedAt(new \DateTimeImmutable('now'));
+      
+        $form = $this->createForm(AppointmentFormType::class,$appointment);
+        $form->handleRequest($request);
+
+        // Formulaire pour ajouter un RDV
+        if($form->isSubmitted() && $form->isValid()){
+            
+            // Vérifier si un RDV avec le même horaire de début existe pour la même date
+            $existAppointment = $entityManagerInterface->getRepository(Appointment::class)->findOneBy(['startedAt' => $appointment->getStartedAt()
+            ]);
+            
+            if($existAppointment){
+               $existAppointment->getStartedAt();
+                $this->addFlash('error', 'Un RDV avec cet horaire existe déjà pour cette date.');
+            }else{
+            $appointment->setStartedAt(
+                $form->get('startedAt')->getData()
+            );
+           
+            $entityManagerInterface ->persist($appointment);
+            $entityManagerInterface ->flush();
+
+            $this->addFlash('success', 'Le RDV a été ajouté avec succès.');
+            }
+        }
     return $this->render('admin/add-appointment.html.twig', [
-        'appointments' => $appointments,
         'filterForm' => $filterForm,
         'dates' => $dates,
+        'schedules' => $schedules,
+        'form' => $form,
     ]);
     }
-   
-    
+
     // Supprimer des créneaux de RDV
     #[Route('/admin/delete-appointment/{id}', name:'app_admin_appointment_delete', methods:['POST','GET'])]
     public function deleteAppointment(

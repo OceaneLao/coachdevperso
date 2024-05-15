@@ -17,6 +17,7 @@ class AppointmentFilterType extends AbstractType
                 'widget' => 'choice',
                 'format' => 'yyyy-MM',
                 'html5' => false,
+                'years' => range(date('Y'), date('Y') + 5)
             ]);
     }
 
