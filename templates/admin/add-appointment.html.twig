@@ -5,10 +5,13 @@
 
 {% block body %}
 	<div class="container mx-auto p-10">
-		<div class="flex flex-row justify-center grid grid-cols-2">
-			<div class="flex flex-col items-center">
-				<h1 class="text-3xl text-blue font-bold pb-5">
-					Ajouter un rendez-vous
+		<div class="flex flex-col md:flex-row justify-center grid-cols-2 md:gap-32">
+			<div class="flex flex-col items-center pb-5">
+				<h1 class="text-4xl md:text-3xl text-blue font-bold text-center mb-2">
+					<div class="flex md:flex-row flex-col items-center justify-center">
+						<div class="pe-2">Ajouter un</div>
+						<div>rendez-vous</div>
+					</div>
 				</h1>
 
 				{% for flashError in app.flashes('error') %}
@@ -19,116 +22,27 @@
 					<div class="text-green">{{ flashSuccess }}</div>
 				{% endfor %}
 
-				{{ form_start(appointmentForm) }}
-				<div class="flex flex-col">
-					{{ form_widget(appointmentForm.startedAt) }}
-					{{ form_widget(appointmentForm.endedAt) }}
-					<button type="submit" class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2" onclick="return confirm('Confirmer le rendez-vous ?')">
-						Confirmer
-					</button>
-				</div>
-				{{ form_end(appointmentForm) }}
-
-				<p class="text-brown">
-					<a href="{{ path('app_admin') }}" class="no-underline hover:underline">Revenir à mon espace Admin</a>
-				</p>
-				</div>
-
-			<div
-				class="w-full flex flex-col items-center">
-				<h2 class="text-3xl text-blue font-bold pb-5">Filtrer les rendez-vous disponibles</h2>
 				{{ form_start(filterForm)}}
-				{{ form_row(filterForm.startedAt)}}
-					<button type="submit" class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">
-						Filter
-					</button>
-				{{ form_end(filterForm) }}
 
-				{# Trier les rendez-vous par date croissante #}
-				{% set sortedAppointments = appointments|sort((a, b) => a.startedAt.timestamp - b.startedAt.timestamp) %}
-
-				{# Initialiser une liste de dates uniques #}
-				{% set uniqueDates = [] %}
-
-				{# Initialiser les dates actuelles #}
-				{% set now = "now"|date('Y-m-d H:i:s') %}
-
-				{# Stocker les dates uniques dans la liste #}
-				{% for appointment in sortedAppointments %}
-					{% set appointmentDateTime = appointment.startedAt|date('Y-m-d H:i:s') %}
-					{% if appointment.isAvailable and appointmentDateTime > now %}
-						{% set currentDate = appointment.startedAt|format_datetime('full', 'none', locale='fr') %}
-						{% if currentDate not in uniqueDates %}
-							{# Combiner la liste actuelle 'uniquesDates' avec la nouvelle liste 'currentDate' #}
-							{% set uniqueDates = uniqueDates|merge([currentDate]) %}
-						{% endif %}
-					{% endif %}
-				{% endfor %}
-
-				{# Boucle sur les dates uniques #}
-				{% for currentDate in uniqueDates %}
-				{# Ouvrir une div pour chaque date unique #}
-				<button 
-				name="selected_date" 
-				data-collapse-target="collapse_{{ loop.index }}" class="bg-white text-center text-brown rounded-md border py-2 w-96 mb-2">
-					{{ currentDate }}
+				{{ form_widget(filterForm.startedAt) }}
+			
+				<button type="submit" class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">
+					Filter
 				</button>
-
-				{# Afficher les horaires associés à cette date #}
-				<div data-collapse="collapse_{{ loop.index }}" class="block h-0 flex flex-col items-center overflow-hidden transition-all duration-300 ease-in-out">
-					<div class="text-pink">
-						Select a schedule
-						<div class="relative flex flex-row justify-center items-center mb-2 grid grid-cols-3 gap-4 mt-2">
-							{% for appointment in sortedAppointments %}
-								{% set appointmentDate = appointment.startedAt|format_datetime('full', 'none', locale='fr') %}
-								{% if appointmentDate == currentDate %}
-									{% if appointment.isAvailable %}
-									<form action="{{ path('app_appointment_submit', {'id': appointment.id}) }}" method="post">
-											<button name="selected_schedule" type="submit" onclick="return confirm('Confirmer le rendez-vous ?');" id="selectSchedule" class="bg-white border rounded-full px-5 py-2 text-brown">
-												{{ appointment.startedAt|format_datetime('none', 'short', locale='fr') }}
-											</button>
-										{% endif %}
-									</form>
-								{% endif %}
-							{% endfor %}
-						</div>
-					</div>
+				{{ form_end(filterForm) }}				
+			
+			<div class="flex flex-col">
+				{% if dates %}
+						{% for date in dates %}
+						<button 
+						name="selected_date" 
+						class="bg-white text-center text-brown rounded-md border py-2 w-80 md:w-96 mb-2">
+							{{ date|format_datetime('full', 'none', locale='fr') }}
+						</button>	
+						{% endfor %}
+				{% endif %}
 				</div>
-			{% endfor %}
 			</div>
 		</div>
 	</div>
-<script>
-	const buttons = document.querySelectorAll('[data-collapse-target]');
-		buttons.forEach(function (button, index) {
-		button.addEventListener("click", function (event) {
-		event.preventDefault(); // Empêche le comportement par défaut du bouton
-		let selectButton = document.querySelector('[data-collapse-target]')
-		buttons.forEach(function (selectButton) {
-			if(selectButton == button){
-			selectButton.classList.remove("bg-white", "text-brown");
-			selectButton.classList.add("bg-pink", "text-white");
-			}else{
-			selectButton.classList.remove("bg-pink", "text-white");
-			selectButton.classList.add("bg-white", "text-brown");
-			}
-		});
-
-		const targetId = this.getAttribute('data-collapse-target');
-		const target = document.querySelector(`[data-collapse="${targetId}"]`);
-
-		// Fermer tous les autres accordéons
-		document.querySelectorAll('[data-collapse]').forEach(item => {
-		if (item.getAttribute('data-collapse') !== targetId) {
-		item.classList.add('h-0');
-		item.classList.remove('h-auto');
-		}
-	});
-
-		// Ouvrir ou fermer l'accordéon cible
-		target.classList.toggle('h-auto');
-		target.classList.toggle('h-0');
-		});
-	});
-</script>
 {% endblock %}

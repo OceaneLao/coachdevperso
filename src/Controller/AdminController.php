@@ -57,79 +57,43 @@ class AdminController extends AbstractController
         AppointmentRepository $appointmentRepository
     ): Response
     {
-        // Récupérer toutes les données dans le Repository
-        $appointmentRepository = $entityManagerInterface->getRepository(Appointment::class);
-        $appointments = $appointmentRepository->findAll();
-        $appointment = new Appointment();
-        
-        // Date de création du RDV avec date et jour d'aujourd'hui
-        $appointment->setCreatedAt(new \DateTimeImmutable('now'));
-        
-        // Définir l'horaire sur une heure spécifique sans ajouter la date
-        $startedAt = \DateTimeImmutable::createFromFormat('H:i', '09:00');
-        $appointment->setStartedAt($startedAt);
-        // Ajouter une heure à endedAt pour définir l'horaire de fin
-        $endedAt = clone $startedAt->modify('+1 hour');
-        $appointment->setEndedAt($endedAt);
-       
-        $form = $this->createForm(AppointmentFormType::class,$appointment);
-        $form->handleRequest($request);
-        
-        // Filtrer les RDV par année et par mois
-        $filterForm = $this->createForm(AppointmentFilterType::class, $appointment);
-        $filterForm->handleRequest($request);
+       // Récupérer toutes les données dans le Repository
+       $appointmentRepository = $entityManagerInterface->getRepository(Appointment::class);
+       $appointments = $appointmentRepository->findAll();
+       $appointment = new Appointment();
 
-        // Formulaire pour ajouter un RDV
-        if($form->isSubmitted() && $form->isValid()){ 
-            // Vérifier si un RDV avec le même horaire de début existe pour la même date
-            $existAppointment = $entityManagerInterface->getRepository(Appointment::class)->findOneBy(['startedAt' => $appointment->getStartedAt()
-            ]);
-            
-            if($existAppointment){
-               $existAppointment->getStartedAt();
-                $this->addFlash('error', 'Un RDV avec cet horaire existe déjà pour cette date.');
-            }else{
-            $appointment->setStartedAt(
-                $form->get('startedAt')->getData()
-            );
-           
-            $entityManagerInterface ->persist($appointment);
-            $entityManagerInterface ->flush();
+       // Filtrer les RDV par année et par mois
+       $filterForm = $this->createForm(AppointmentFilterType::class, $appointment);
+       $filterForm->handleRequest($request);
 
-            $this->addFlash('success', 'Le RDV a été ajouté avec succès.');
-            }
-        }
-
-        // Formulaire pour filtrer les rendez-vous
-        $result = [];
+        $dates = [];
+        // Formulaire pour filtrer les dates du mois de Mai
         if($filterForm->isSubmitted() && $filterForm->isValid()){
-            $startDate = $filterForm->get('startedAt')->getData();
-            $year = $startDate->format('Y');
-            $month = $startDate->format('m');
-                foreach ($appointments as $a) {
-                // Extraire l'année et le mois de chaque rendez-vous
-                $appointmentYear = $a->getStartedAt()->format('Y');
-                $appointmentMonth = $a->getStartedAt()->format('m');
-                
-                // Vérifier si l'année ou le mois correspond à ceux spécifiés dans le filtre
-                if($appointmentMonth){
-                    if ($appointmentYear == $year && $appointmentMonth == $month) {
-                        $result[] = $a;
-                    }
-                } else {
-                    if ($appointmentYear == $year) {
-                        $result[] = $a;
-                    }
-                }
-            }
+            $formData = $filterForm->get('startedAt')->getData();
+            $year = $formData->format('Y');
+            $month = $formData->format('m');
+        
+        // Afficher les dates liées au mois sélectionné 
+        $startDate = new \DateTime($year . '-' . $month . '-01');
+        $endDate = new \DateTime($year . '-' . $month . '-31');
+
+        $endDate = clone $startDate;
+        $endDate->modify('last day of this month');
+
+        $currentDate = clone $startDate;
+        while ($currentDate <= $endDate){
+            $dates[] = $currentDate->format('Y-m-d');
+            $currentDate->modify('+1 day');
         }
+      }
 
     return $this->render('admin/add-appointment.html.twig', [
-        'appointments' => $result,
-        'appointmentForm' => $form,
+        'appointments' => $appointments,
         'filterForm' => $filterForm,
+        'dates' => $dates,
     ]);
     }
+   
     
     // Supprimer des créneaux de RDV
     #[Route('/admin/delete-appointment/{id}', name:'app_admin_appointment_delete', methods:['POST','GET'])]

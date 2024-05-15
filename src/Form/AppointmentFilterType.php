@@ -14,11 +14,9 @@ class AppointmentFilterType extends AbstractType
     {
         $builder
             ->add('startedAt', DateTimeType::class, [
-                'label' => 'Sélectionnez l\'année et le mois',
-                'placeholder' => [
-                    'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
-                    'hour' => 'Hour', 'minute' => 'Minute', 'second' => 'Second',
-                ]
+                'widget' => 'choice',
+                'format' => 'yyyy-MM',
+                'html5' => false,
             ]);
     }
 
