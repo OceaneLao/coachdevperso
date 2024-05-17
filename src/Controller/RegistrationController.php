@@ -40,10 +40,8 @@ class RegistrationController extends AbstractController
 
             // Attribuer le rôle User pour les nouveaux utilisateurs
             $user->setRoles(['ROLE_USER']);
-
             $entityManager->persist($user);
             $entityManager->flush();
-
             $this->addFlash('success', 'Veuillez consulter votre boîte e-mail pour confirmer votre inscription.');
 
             // Générer une adresse URL dans l'envoi des e-mail pour confirmer l'inscription

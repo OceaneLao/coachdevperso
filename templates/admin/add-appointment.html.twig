@@ -14,47 +14,57 @@
 					</div>
 				</h1>
 
-				<p class="text-pink pb-2">
-					Filtrez par année et par mois
-				</p>
+				<div class="w-full flex flex-col items-center">
 
-				{{ form_start(filterForm)}}
+				{# Message d'information : ajout de RDV ou RDV déjà existant #}
+				{% for flashError in app.flashes('error') %}
+					<div class="text-red py-3">{{ flashError }}</div>
+				{% endfor %}
+				{% for flashSuccess in app.flashes('success') %}
+					<div class="text-green py-3">{{ flashSuccess }}</div>
+				{% endfor %}
+				
+					<p class="text-pink py-3">
+						Choisissez un mois et une année
+					</p>
+					{{ form_start(filterForm) }}
+					{{ form_widget(filterForm) }}
+					<button type="submit" class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">
+						Filter
+					</button>
+					{{ form_end(filterForm) }}
 
-				{{ form_widget(filterForm.startedAt) }}
-
-				<button type="submit" class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2">
-					Filter
-				</button>
-				{{ form_end(filterForm) }}
-
-				<div class="flex flex-col items-center justify-center">
-					{% if dates %}
-						<p class="text-pink mb-2">
-							Sélectionnez une date
-						</p>
+					<div class="flex flex-col items-center justify-center">
+					<p class="text-pink py-3">
+						Sélectionnez une date
+					</p>
 						{% for date in dates %}
-							<button 
-							{# id="open-modal-appointment"  #}data-collapse-target="collapse_{{ loop.index }}"
-							class="bg-white text-center text-brown rounded-md border py-2 w-80 md:w-96 mb-2" 
-							data-date="{{ date }}">
+							<button data-collapse-target="collapse_{{ loop.index }}" 
+							class="bg-white text-center text-brown rounded-md border py-2 w-80 md:w-96 mb-2">
 								{{ date|format_datetime('full', 'none', locale='fr') }}
 							</button>
-							
+
 							{# Afficher tous les horaires qui ne sont pas ajoutés à la page Rendez-Vous #}
 							<div data-collapse="collapse_{{ loop.index }}" class="block h-0 flex flex-col items-center overflow-hidden transition-all duration-300 ease-in-out">
 								<div class="text-pink text-center">
-									Ajouter un horaire
-									<div class="flex flex-row justify-center items-center mb-2 grid grid-cols-3 gap-4 mt-2">
-										{% for schedule in schedules %}
-											<button name="selected_schedule" type="submit" onclick="return confirm('Ajouter votre rendez-vous ?');" id="selectSchedule" class="bg-white border rounded-full px-5 py-2 text-brown">
-												{{ schedule }}
-											</button>
+									<div class="flex flex-row justify-center items-center mb-2 grid grid-cols-3 gap-4 mx-2">
+										{% for appointment in appointments %}
+											{% if appointment.startedAt|date('Y-m-d') == date %}
+												<button name="selected_schedule" id="selectSchedule" class="bg-white border rounded-full px-5 py-2 text-brown">
+													{{ appointment.startedAt|format_datetime('none', 'short', locale='fr') }}
+												</button>
+											{% endif %}
 										{% endfor %}
 									</div>
+									<button id="open-modal-appointment" 
+									class="bg-blue border border-blue rounded-full text-white w-48 py-3 mt-3 mb-5"
+									data-date= {{ date }}>
+										Ajouter un horaire
+									</button>
 								</div>
 							</div>
 						{% endfor %}
-					{% endif %}
+					</div>
 				</div>
 			</div>
 		</div>
@@ -69,56 +79,46 @@
 				<span class="flex flex-col items-end text-blue w-48 py-3 m-2">
 					<i id="close-modal-appointment" class="fa fa-times" aria-hidden="true"></i>
 				</span>
-				{% for flashError in app.flashes('error') %}
-					<div class="text-red">{{ flashError }}</div>
-				{% endfor %}
 
-				{% for flashSuccess in app.flashes('success') %}
-					<div class="text-green">{{ flashSuccess }}</div>
-				{% endfor %}
 				<p class="text-pink pb-2">
 					Sélectionnez un horaire
 				</p>
-				{{
-			form_start(form)
-		}}
 
-				{{
-			form_widget(form.startedAt)
-		}}
-
-				{{
-			form_widget(form.endedAt)
-		}}
-
-				<button type="submit" class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2" onclick="return confirm('Confirmer le rendez-vous ?')">
+				{{ form_start(form) }}
+				
+				{{ form_widget(form.startedAt) }}
+				{{ form_widget(form.endedAt) }}
+				<button type="submit" 
+				class="bg-blue border border-blue rounded-full text-white w-48 py-3 m-2" 
+				onclick="return confirm('Confirmer le rendez-vous ?')">
 					Confirmer
 				</button>
-				{{
-			form_end(form)
-		}}
+				{{ form_end(form) }}
 			</div>
 		</div>
 	</div>
 
 	<script>
-		const buttons = document.querySelectorAll('[data-collapse-target]');
+	 	// Ne plus afficher le jour dans le formulaire de filtre
+			const day = document.querySelector('#appointment_filter_startedAt_day').classList.add('hidden');
+		// Ouvrir l'accordéon
+			const buttons = document.querySelectorAll('[data-collapse-target]');
 			buttons.forEach(function (button, index) {
 			button.addEventListener("click", function (event) {
 			event.preventDefault(); // Empêche le comportement par défaut du bouton
 			let selectButton = document.querySelector('[data-collapse-target]')
 			buttons.forEach(function (selectButton) {
-				if(selectButton == button){
-				selectButton.classList.remove("bg-white", "text-brown");
-				selectButton.classList.add("bg-pink", "text-white");
-				}else{
-				selectButton.classList.remove("bg-pink", "text-white");
-				selectButton.classList.add("bg-white", "text-brown");
-				}
+			if (selectButton == button) {
+			selectButton.classList.remove("bg-white", "text-brown");
+			selectButton.classList.add("bg-pink", "text-white");
+			} else {
+			selectButton.classList.remove("bg-pink", "text-white");
+			selectButton.classList.add("bg-white", "text-brown");
+			}
 			});
 
 			const targetId = this.getAttribute('data-collapse-target');
-			const target = document.querySelector(`[data-collapse="${targetId}"]`);
+			const target = document.querySelector (`[data-collapse="${targetId}"]`);
 
 			// Fermer tous les autres accordéons
 			document.querySelectorAll('[data-collapse]').forEach(item => {
@@ -126,28 +126,29 @@
 			item.classList.add('h-0');
 			item.classList.remove('h-auto');
 			}
-		});
+			});
 
-		// Ouvrir ou fermer l'accordéon cible
-		target.classList.toggle('h-auto');
-		target.classList.toggle('h-0');
-		});
-	});
+			// Ouvrir ou fermer l'accordéon cible
+			target.classList.toggle('h-auto');
+			target.classList.toggle('h-0');
+			});
+			});
 
 		// Fenêtre modale
-		// Appliquer à chaque date sélectionnée une fenêtre modale
+		// Appliquer à chaque bouton "Ajouter un horaire" une fenêtre modale
 		document.querySelectorAll("#open-modal-appointment").forEach(button => {
-		button.addEventListener("click", (event) => {
-		document.querySelector("#modal-appointment").classList.remove("hidden")
-		// let date = button.data('date');
-		console.log(event.target.dataset.date);
-		let start = document.querySelector('#appointment_form_startedAt')
-		start.value = event.target.dataset.date + "T15:00"
-
-	});
-});
-document.querySelector("#close-modal-appointment").addEventListener("click", () => {
-document.querySelector("#modal-appointment").classList.add("hidden")
-})
+			button.addEventListener("click", (event) => {
+			document.querySelector("#modal-appointment").classList.remove("hidden")
+			// Récupérer la donnée "date" et l'afficher dans le formulaire d'ajout de rendez-vous
+			let date = event.target.dataset.date;
+			let start = document.querySelector('#appointment_form_startedAt');
+			start.value = date + "T09:00";
+			let end = document.querySelector('#appointment_form_endedAt');
+			end.value = date + "T10:00";
+			});
+		});
+		document.querySelector("#close-modal-appointment").addEventListener("click", () => {
+		document.querySelector("#modal-appointment").classList.add("hidden")
+		})
 	</script>
 {% endblock %}

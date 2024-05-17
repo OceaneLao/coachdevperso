@@ -21,18 +21,15 @@ class AppointmentRepository extends ServiceEntityRepository
         parent::__construct($registry, Appointment::class);
     }
 
-    public function filterAppointmentByYearAndMonth(Appointment $appointment, $year, $month)
+    public function filterByYearAndMonth($year, $month)
     {
-        $qb =$this->createQueryBuilder('appointment');
-        if($appointment->getStartedAt()){
-            $qb
+        $qb = $this->createQueryBuilder('appointment');
+        $qb
             ->andWhere($qb->expr()->eq('year(appointment.startedAt)', ':year'))
             ->andWhere($qb->expr()->eq('month(appointment.startedAt)', ':month'))
             ->setParameter('year', $year)
             ->setParameter('month', $month)
-            ->orderBy('appointment.startedAt', 'ASC')
-        ;
-        }
-            return $qb->getQuery()->getResult();
+            ->orderBy('appointment.startedAt', 'ASC');
+        return $qb->getQuery()->getResult();
     }
 }
