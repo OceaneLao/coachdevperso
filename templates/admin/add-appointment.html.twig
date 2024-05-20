@@ -7,7 +7,7 @@
 	<div class="container mx-auto p-10">
 		<div class="flex flex-col md:flex-row justify-center grid-cols-2 md:gap-32">
 			<div class="flex flex-col items-center pb-5">
-				<h1 class="text-4xl md:text-3xl text-blue font-bold text-center mb-2">
+				<h1 class="font-neuton text-3xl md:text-4xl text-blue font-bold text-center mb-2">
 					<div class="flex md:flex-row flex-col items-center justify-center">
 						<div class="pe-2">Ajouter un</div>
 						<div>rendez-vous</div>
@@ -34,6 +34,7 @@
 					</button>
 					{{ form_end(filterForm) }}
 
+					{% if dates %}
 					<div class="flex flex-col items-center justify-center">
 					<p class="text-pink py-3">
 						Sélectionnez une date
@@ -65,6 +66,7 @@
 							</div>
 						{% endfor %}
 					</div>
+					{% endif %}
 				</div>
 			</div>
 		</div>
@@ -84,7 +86,10 @@
 					Sélectionnez un horaire
 				</p>
 
-				{{ form_start(form) }}
+				{{ form_start(form, {
+					'attr': {
+                    'class': 'flex flex-col',
+                }}) }}
 				
 				{{ form_widget(form.startedAt) }}
 				{{ form_widget(form.endedAt) }}

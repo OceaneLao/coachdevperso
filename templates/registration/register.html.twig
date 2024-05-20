@@ -4,23 +4,23 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container m-auto md:py-0 py-10">
+	<div class="container m-auto md:py-0 py-10 w-10/12">
 		<div class="flex md:flex-row flex-col justify-center items-center gap-5">
-            <div class="basis-1/3 flex flex-col justify-center items-center">
+            <div class="basis-1/2 flex flex-col justify-center items-center">
                 <img class="w-64 md:w-full shadow-[20px_20px_0px_0px_#84a59d]" src="{{ asset("img/inscription.jpg") }}" alt="Inscription">
             </div>
 
-            <div class="basis-1/3 text-center mt-10 mx-2 md:m-5">
+            <div class="basis-1/2 text-center mt-10 mx-2 md:m-5">
 			{% for flash_error in app.flashes('verify_email_error') %}
 				<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
 			{% endfor %}
 
-			<h1 class="text-4xl md:text-3xl text-blue font-bold pb-5">
+			<h1 class="font-neuton text-3xl md:text-4xl text-blue font-bold pb-5">
 				S'inscrire
 			</h1>
 
             <p class="text-brown pb-5">
-                Veuillez remplir les champs d'inscription pour vous créer un compte.
+                Veuillez remplir le formulaire d'inscription pour vous créer un compte.
             </p>
 
             {% for flash_message in app.flashes('success') %}

@@ -14,6 +14,10 @@ module.exports = {
       red : "#f00",
       beige : "#fbf5f4",
       green : "#0A6847",
+    },
+    fontFamily: {
+      neuton: ['Neuton'],
+      inter: ['Inter'],
     }
   },
   plugins:[],
